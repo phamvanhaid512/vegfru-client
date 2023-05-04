@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+  client:
+    build: .
+    image: rajamrit15/vegfru-client
+    container_name: vegfru-client
+    env_file:
+      - env_file.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  proxy:
+    image: nginx:alpine
+    container_name: web-proxy
+    restart: unless-stopped
+    volumes:
+      - ./proxy.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on:
+      - client
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
