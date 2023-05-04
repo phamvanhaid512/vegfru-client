@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 // ENDPOINT
-const endpoint = "http://localhost:8000";
+const endpoint = import.meta.env.VITE_API_URL;
 
 const Address = ({ address, fetchAddress }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()

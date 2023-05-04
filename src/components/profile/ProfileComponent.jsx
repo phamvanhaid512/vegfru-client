@@ -17,7 +17,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 
-const endpoint = "http://localhost:8000";
+const endpoint = import.meta.env.VITE_API_URL;
 
 const ProfileComponent = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()

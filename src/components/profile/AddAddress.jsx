@@ -12,7 +12,7 @@ const override = {
     marginBottom: "12px",
 };
 
-const endpoint = "http://localhost:8000";
+const endpoint = import.meta.env.VITE_API_URL;
 const mapbox_url = `https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/clgjqyhee007o01qt6l1veo00/tiles/256/{z}/{x}/{y}@2x?access_token=${import.meta.env.VITE_MAPBOX_KEY}`
 
 

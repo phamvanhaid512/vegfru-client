@@ -9,6 +9,7 @@ const override = {
     marginBottom : "12px",
 };
 
+const endpoint = import.meta.env.VITE_API_URL;
 
 const Signup = ({ handleClick }) => {
     const [loader, setLoader] = useState(false);
@@ -27,7 +28,7 @@ const Signup = ({ handleClick }) => {
                 },
             };
 
-            const { data } = await axios.post(`${import.meta.env.ENDPOINT}/api/user/register`,
+            const { data } = await axios.post(`${endpoint}/api/user/register`,
                 { phone, name, email, password },
                 config);
 

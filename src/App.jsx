@@ -10,7 +10,7 @@ import axios from 'axios';
 import Vendor from './pages/Vendor';
 import { AuthContext } from './context/AuthContext';
 
-const endpoint = "http://localhost:8000";
+const endpoint = import.meta.env.VITE_API_URL;
 
 function App() {
   const { user, setUser } = useContext(AuthContext)

@@ -11,7 +11,7 @@ const override = {
     marginBottom: "12px",
 };
 
-const endpoint = "http://localhost:8000"
+const endpoint = import.meta.env.VITE_API_URL;
 
 const Login = ({ handleClick }) => {
     const { setUser } = useContext(AuthContext);
