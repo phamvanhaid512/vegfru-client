@@ -13,8 +13,9 @@ import { AuthContext } from './context/AuthContext';
 const endpoint = import.meta.env.VITE_API_URL;
 
 function App() {
-  const { user, setUser } = useContext(AuthContext)
+  const { user, setUser, getStores } = useContext(AuthContext)
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const checkUser = async () => {
@@ -33,9 +34,9 @@ function App() {
             },
           };
           const res = await axios.get(`${endpoint}/api/user`, config);
-          console.log(res)
           // localStorage.setItem("vegfru_token", JSON.stringify(res.data.token));
           setUser(res.data)
+          getStores()
         } else {
           console.log("Token not avaialble!")
           navigate("/");
@@ -58,7 +59,7 @@ function App() {
           <Route path='/help' element={<Help />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/checkout' element={<Checkout />} />
-          <Route path='/vendor/:id' element={<Vendor />} />
+          <Route path='/vendor/:storeId' element={<Vendor />} />
         </>
       ) : (
         // If user doesn't exist, redirect to login page

@@ -12,106 +12,107 @@ import { AuthContext } from '../../context/AuthContext';
 const mapbox_url = `https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/clgjqyhee007o01qt6l1veo00/tiles/256/{z}/{x}/{y}@2x?access_token=${import.meta.env.VITE_MAPBOX_KEY}`
 
 
-const marker = [
-    {
-        geoCode: [22.50598171838847, 88.39993838929564],
-        popup: "Hello I am Popup",
-        showPopup: true
-    },
-    {
-        geoCode: [22.500260845341288, 88.40701538141923],
-        popup: "Hello I am Popup",
-        showPopup: false
-    },
-    {
-        geoCode: [22.494676804412663, 88.40449783000565],
-        popup: "Hello I am Popup"
-    },
-    {
-        geoCode: [22.503275937260312, 88.40907714812835],
-        popup: "Hello I am Popup"
-    },
-    {
-        geoCode: [22.50830657964275, 88.41246333594893],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [22.50141691862349, 88.39973855451547],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [22.511536495482233, 88.3995689185848],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [22.500243639063996, 88.39396351447618],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [22.515779711570673, 88.38127366007058],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [22.52769442422921, 88.38255035017141],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [22.57837395532539, 88.35691346165356],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [22.584767783792344, 88.33224058017362],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [22.58077009487836, 88.31492864427429],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [28.6600, 77.2300],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [23.6600, 80.2300],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [28.6100, 77.2800],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [23.6600, 80.2300],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [23.4600, 80.3300],
-        popup: "Hello I am Popup"
-    }
-    ,
-    {
-        geoCode: [23.5600, 80.1300],
-        popup: "Hello I am Popup"
-    }
-];
+// const marker = [
+//     {
+//         geoCode: [22.50598171838847, 88.39993838929564],
+//         popup: "Hello I am Popup",
+//         showPopup: true
+//     },
+//     {
+//         geoCode: [22.500260845341288, 88.40701538141923],
+//         popup: "Hello I am Popup",
+//         showPopup: false
+//     },
+//     {
+//         geoCode: [22.494676804412663, 88.40449783000565],
+//         popup: "Hello I am Popup"
+//     },
+//     {
+//         geoCode: [22.503275937260312, 88.40907714812835],
+//         popup: "Hello I am Popup"
+//     },
+//     {
+//         geoCode: [22.50830657964275, 88.41246333594893],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [22.50141691862349, 88.39973855451547],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [22.511536495482233, 88.3995689185848],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [22.500243639063996, 88.39396351447618],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [22.515779711570673, 88.38127366007058],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [22.52769442422921, 88.38255035017141],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [22.57837395532539, 88.35691346165356],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [22.584767783792344, 88.33224058017362],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [22.58077009487836, 88.31492864427429],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [28.6600, 77.2300],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [23.6600, 80.2300],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [28.6100, 77.2800],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [23.6600, 80.2300],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [23.4600, 80.3300],
+//         popup: "Hello I am Popup"
+//     }
+//     ,
+//     {
+//         geoCode: [23.5600, 80.1300],
+//         popup: "Hello I am Popup"
+//     }
+// ];
 
 
 const MapBox = () => {
-    const { geo, setGeo, getPlace } = useContext(AuthContext);
+    const { geo, setGeo, getPlace, stores } = useContext(AuthContext);
     const [position, setPosition] = useState([0, 0]);
     const [location, setLocation] = useState(null);
+    // console.log("Stores => ", stores)
 
     const customIcon = new Icon({
         iconUrl: "https://res.cloudinary.com/amritrajmaurya/image/upload/v1681850742/vegetables_pjh2oq.png",
@@ -156,10 +157,10 @@ const MapBox = () => {
                 />
                 <MarkerClusterGroup chunkedLoading >
                     {
-                        marker.map((mark, index) => {
+                        stores.map((store, index) => {
                             return (
-                                <Marker key={index} position={mark.geoCode} icon={customIcon} >
-                                    <Popup><MapPopup /></Popup>
+                                <Marker key={index} position={[store.lat, store.long]} icon={customIcon} >
+                                    <Popup><MapPopup store={store} /></Popup>
                                 </Marker>
                             )
                         })

@@ -3,7 +3,7 @@ import vendor from '../../img/vegetable-vendor-1236840.jpg'
 import { Box, keyframes, Tooltip, Card, CardHeader, CardBody, CardFooter, Flex, Image, Button, Avatar } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 
-const MapPopup = () => {
+const MapPopup = ({ store }) => {
   const activeColor = 'green.500';
   const inactiveColor = 'gray.400';
   const ringScaleMin = 0.33;
@@ -44,13 +44,10 @@ const MapPopup = () => {
 
 
   return (
-    <div onClick={() => navigate("/vendor/asdasndansdmaadasdasd")}>
+    <div onClick={() => navigate(`/vendor/${store._id}`)}>
       <div className='flex items-center justify-start space-x-5 mb-5 cursor-pointer'  >
-        <div className='flex flex-col items-center space-y-2'>
-          <img src="https://bit.ly/sage-adebayo" className='w-12 h-12 rounded-[50%]' alt="" />
-        </div>
         <div className='flex flex-col items-start'>
-          <h2 className='flex items-center font-semibold text-[14px]'>Ramesh Patnayak <Tooltip label={`Status: Active`} textTransform="capitalize">
+          <h2 className='flex items-center font-semibold text-[18px] mt-3 mb-2'>{store.storeName} <Tooltip label={`Status: Active`} textTransform="capitalize">
             <Box
               as="div"
               h="12px"
@@ -77,18 +74,18 @@ const MapPopup = () => {
               }}
             />
           </Tooltip> </h2>
-          <small>Madurdaha, Hussainpur, <br /> Kolkata 700107, WB</small>
+          <small>{store.storeAddress}</small>
 
         </div>
       </div>
 
       <Image
         objectFit='cover'
-        src={vendor}
+        src={store.storeImage}
         alt='Chakra UI'
       />
       <div className='flex justify-between items-center mt-3'>
-        <p className='text-green-600 font-semibold text-xs'>Vegetable Only.</p>
+        <p className='text-green-600 font-bold'>{store.storeType === "both" ? "VEGETABLES & FRUITS" : store.storeType.toUpperCase()}</p>
         <p className='flex items-center text-xs'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
@@ -102,13 +99,13 @@ const MapPopup = () => {
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
           </svg>
 
-          <span className='text-red-500 font-bold' >1k</span>
+          <span className='text-red-500 font-bold' >{store.like.length}</span>
         </div>
         <div className='flex items-center cursor-pointer' >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-indigo-500">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
           </svg>
-          <span className='text-indigo-500 font-bold'>504</span>
+          <span className='text-indigo-500 font-bold'>{store.comments.length}</span>
         </div>
         <div className='flex items-center cursor-pointer'>
 
