@@ -25,7 +25,6 @@ const Vendor = () => {
         },
       };
       const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/vendor/get-store/${storeId}`, config)
-      console.log(data.store);
       setSingleStore(data.store);
     } catch (error) {
       console.log(error)

@@ -10,6 +10,7 @@ export const AuthContextProvider = ({ children }) => {
     const [geo, setGeo] = useState();
     const [loader, setLoader] = useState(false);
     const [stores, setStores] = useState();
+    const [dist, setDist] = useState()
 
     const getStores = async () => {
         try {
@@ -44,8 +45,22 @@ export const AuthContextProvider = ({ children }) => {
             { enableHighAccuracy: true });
     }
 
+    const fetchDistance = async () => {
+        try {
+            const response = await axios.get(
+                `https://api.mapbox.com/directions/v5/mapbox/driving/84.98562588765967,25.199631806835708;85.13706632426567,25.599772402825188?access_token=pk.eyJ1IjoiYW1yaXRtYXVyeWExNTA0IiwiYSI6ImNsZ2djNGxiaTBhOGMzY2xpcjVjM21jZzEifQ.jrekTOQzLn_x7aFnZkcW-Q`
+            );
+            const data = response.data;
+            const distance = (data.routes[0].distance)/1000;
+            return distance;
+            // You can set the distance in the component state or do any other processing here
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores,stores }} >
+        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, dist, fetchDistance }} >
             {children}
         </AuthContext.Provider>
     )

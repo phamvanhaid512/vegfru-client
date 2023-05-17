@@ -1,9 +1,11 @@
-import React from 'react'
-import vendor from '../../img/vegetable-vendor-1236840.jpg'
+import React, { useContext, useEffect, useState } from 'react'
 import { Box, keyframes, Tooltip, Card, CardHeader, CardBody, CardFooter, Flex, Image, Button, Avatar } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
 
 const MapPopup = ({ store }) => {
+  const { fetchDistance } = useContext(AuthContext)
+  const [dist, setDist] = useState()
   const activeColor = 'green.500';
   const inactiveColor = 'gray.400';
   const ringScaleMin = 0.33;
@@ -42,8 +44,20 @@ const MapPopup = ({ store }) => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchDistance()
+      .then(distance => {
+        console.log('Distance:', distance);
+        setDist(distance)
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
+
+  },[])
 
   return (
+
     <div onClick={() => navigate(`/vendor/${store._id}`)}>
       <div className='flex items-center justify-start space-x-5 mb-5 cursor-pointer'  >
         <div className='flex flex-col items-start'>
@@ -90,7 +104,7 @@ const MapPopup = ({ store }) => {
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
         </svg>
-          <span><span className='font-semibold'>3.2KM </span> far from you.</span></p>
+          <span><span className='font-semibold'>{dist?.toFixed(1)}KM </span> far from you.</span></p>
       </div>
       <div className='flex items-center justify-around mt-3'
       >

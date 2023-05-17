@@ -157,7 +157,7 @@ const MapBox = () => {
                 />
                 <MarkerClusterGroup chunkedLoading >
                     {
-                        stores.map((store, index) => {
+                        stores?.map((store, index) => {
                             return (
                                 <Marker key={index} position={[store.lat, store.long]} icon={customIcon} >
                                     <Popup><MapPopup store={store} /></Popup>
