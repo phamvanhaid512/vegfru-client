@@ -17,12 +17,9 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 
-const endpoint = import.meta.env.VITE_API_URL;
-
 const ProfileComponent = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [fun, setFun] = useState()
-    const [address, setAddress] = useState();
     const navigate = useNavigate();
     const { user, currentPlace, setUser } = useContext(AuthContext)
 
@@ -30,26 +27,6 @@ const ProfileComponent = () => {
         setFun(drawer);
         onOpen()
     }
-
-    useEffect(() => {
-        fetchAddress();
-    }, []);
-
-    const fetchAddress = async () => {
-        try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
-
-            const { data } = await axios.get(`${endpoint}/api/user/get-alladdress`, config);
-            setAddress(data);
-        } catch (error) {
-            alert(error);
-        }
-    };
 
     const logout = async () => {
         try {
@@ -107,7 +84,7 @@ const ProfileComponent = () => {
                                             <Orders />
                                         </TabPanel>
                                         <TabPanel>
-                                            <Address address={address} fetchAddress={fetchAddress} />
+                                            <Address />
                                         </TabPanel>
                                     </TabPanels>
                                 </Tabs>
@@ -121,7 +98,7 @@ const ProfileComponent = () => {
                 <DrawerContent>
                     <DrawerCloseButton />
                     <DrawerBody>
-                        {fun === "add" ? <AddAddress fetchAddress={fetchAddress} /> : <EditProfile />}
+                        {fun === "add" ? <AddAddress /> : <EditProfile />}
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>

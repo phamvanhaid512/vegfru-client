@@ -16,8 +16,8 @@ const endpoint = import.meta.env.VITE_API_URL;
 const mapbox_url = `https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/clgjqyhee007o01qt6l1veo00/tiles/256/{z}/{x}/{y}@2x?access_token=${import.meta.env.VITE_MAPBOX_KEY}`
 
 
-const AddAddress = ({ fetchAddress }) => {
-    const { currentPlace, getPlace } = useContext(AuthContext);
+const AddAddress = () => {
+    const { fetchAddress, currentPlace, getPlace } = useContext(AuthContext);
     const [position, setPosition] = useState([24.79039723056424, 78.53669117764389]);
     const [location, setLocation] = useState(null);
     const [address, setAddress] = useState();
@@ -92,11 +92,11 @@ const AddAddress = ({ fetchAddress }) => {
                 progress: undefined,
                 theme: "colored",
             });
+            fetchAddress()
             setAddress("")
             setCurrentLoc("")
             setLandMark("")
             setLoader(false);
-            fetchAddress()
 
         } catch (error) {
             console.log(error)

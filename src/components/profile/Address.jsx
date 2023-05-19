@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import EditAddress from "./EditAddress"
 import {
     Drawer,
@@ -10,14 +10,16 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
 
 
 // ENDPOINT
 const endpoint = import.meta.env.VITE_API_URL;
 
-const Address = ({ address, fetchAddress }) => {
+const Address = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [singleAddress, setSingleAddress] = useState();
+    const { yourAddress, fetchAddress } = useContext(AuthContext)
 
     const handleClick = (address) => {
         onOpen()
@@ -61,10 +63,10 @@ const Address = ({ address, fetchAddress }) => {
             <ToastContainer />
             <section class="text-gray-600 body-font">
                 <div class="container px-5 flex flex-wrap">
-                    {address?.length > 0 && <p className='text-md'>Manage Addresses</p>}
+                    {yourAddress?.length > 0 && <p className='text-md'>Manage Addresses</p>}
                     <div class="flex flex-col -m-4">
                         {
-                            address?.length > 0 ? address.map((curr) => {
+                            yourAddress?.length > 0 ? yourAddress.map((curr) => {
                                 return (
                                     <div class="px-4 mt-3 pt-4" key={curr._id}>
                                         <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">

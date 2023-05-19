@@ -10,7 +10,7 @@ import { getExpectedTime, getExpectedFair } from '../logics/logics';
 
 
 const CartComponent = () => {
-    const { cartItem, currentStore, itemTotal, fetchDistance, decreseQuantity, increaseQuantity } = useContext(AuthContext)
+    const { cartItem, currentStore, itemTotal, fetchDistance, decreseQuantity, increaseQuantity, moveToCheckout } = useContext(AuthContext)
     const navigate = useNavigate();
     const [dist, setDist] = useState()
 
@@ -26,6 +26,19 @@ const CartComponent = () => {
                 });
         }
     }, [])
+
+    const handleProceed = () => {
+        const dataToBePlaced = {
+            storeData : currentStore,
+            cartData : cartItem
+        }
+        const tax = itemTotal * (5 / 100)
+        const distance = dist.toFixed(1)
+        const delieryFair = getExpectedFair(distance)
+        const totalBill = itemTotal + tax + delieryFair;
+        moveToCheckout(dataToBePlaced)
+        navigate(`/checkout/${itemTotal}/${tax}/${distance}/${totalBill}/${delieryFair}`)
+    }
 
     return (
         <div>
@@ -72,11 +85,11 @@ const CartComponent = () => {
                                                         </div>
                                                         <div className='flex items-center space-x-8'>
                                                             <div className='flex items-center space-x-2 border px-2 py-1 bg-green-500 text-white rounded-lg'>
-                                                                <svg onClick={() => decreseQuantity(curr)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                                                <svg onClick={() => decreseQuantity(curr)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="cursor-pointer w-4 h-4">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
                                                                 </svg>
                                                                 <p className='text-sm'>{curr.quantity}</p>
-                                                                <svg onClick={() => increaseQuantity(curr)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                                                <svg onClick={() => increaseQuantity(curr)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="cursor-pointer w-4 h-4">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                                                                 </svg>
                                                             </div>
@@ -111,12 +124,12 @@ const CartComponent = () => {
                                     <span>₹{itemTotal && (itemTotal * (5 / 100))}</span>
                                 </p>
                                 <button
-                                    onClick={() => navigate("/checkout")}
+                                    onClick={handleProceed}
                                     type="submit"
                                     className="mt-3 flex w-full justify-center border-transparent bg-green-500 py-4 px-4 text-sm font-medium text-white shadow-sm "
                                 >
                                     Proceed to checkout <span className='text-[18px] font-semibold ml-2'>₹{
-                                        itemTotal + 15 + (itemTotal * (5 / 100))
+                                        itemTotal + getExpectedFair(dist) + (itemTotal * (5 / 100))
                                     }</span>
                                 </button>
                             </div>

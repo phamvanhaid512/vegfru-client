@@ -10,12 +10,37 @@ export const AuthContextProvider = ({ children }) => {
     const [geo, setGeo] = useState();
     const [loader, setLoader] = useState(false);
     const [stores, setStores] = useState();
-    const [dist, setDist] = useState()
+    const [yourAddress, setYourAddress] = useState()
     const [cartItem, setCartItems] = useState([])
     const [currentStore, setCurrentStore] = useState();
     const [itemTotal, setItemTotal] = useState(0)
+    const [checkOutData, setCheckOutData] = useState()
 
-    // get all stores  
+    const moveToCheckout = (data) => {
+        setCheckOutData(data)
+    }
+
+    // ------- Gets customers all address start -------------
+    const fetchAddress = async () => {
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
+                },
+            };
+
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/get-alladdress`, config);
+            setYourAddress(data);
+        } catch (error) {
+            alert(error);
+        }
+    };
+    // ------- Gets customers all address end -------------
+
+
+
+    // --------------get all stores-------------------  
 
     const getStores = async () => {
         try {
@@ -26,7 +51,7 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
-    // reverse geocoding
+    // --------------reverse geocoding------------------
 
     const getPlace = async (location) => {
         try {
@@ -40,7 +65,7 @@ export const AuthContextProvider = ({ children }) => {
     }
 
 
-    // get live location
+    // ---------------get live location-------------------
 
     const getLocation = () => {
         setLoader(true);
@@ -55,7 +80,7 @@ export const AuthContextProvider = ({ children }) => {
             { enableHighAccuracy: true });
     }
 
-    // get distance from coordinates -----------
+    // ---------------get distance from coordinates -----------
 
     const fetchDistance = async (store_lat, store_long) => {
         try {
@@ -72,9 +97,9 @@ export const AuthContextProvider = ({ children }) => {
     };
 
 
-    // get distance end ------------------------
+    // ---------------get distance end ------------------------
 
-    // Cart feature start -------------------
+    // ---------------Cart feature start -------------------
 
     const addToCart = (data) => {
         // checking if item is already in cart or not
@@ -116,10 +141,10 @@ export const AuthContextProvider = ({ children }) => {
         setItemTotal(itemTotal + data.price);
     }
 
-    // cart feature end ---------------------
+    // ---------------cart feature end ---------------------
 
     return (
-        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, dist, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity,increaseQuantity }} >
+        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, yourAddress, fetchAddress, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity,increaseQuantity, moveToCheckout, checkOutData }} >
             {children}
         </AuthContext.Provider>
     )

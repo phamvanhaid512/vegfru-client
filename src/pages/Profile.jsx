@@ -4,10 +4,11 @@ import ProfileComponent from '../components/profile/ProfileComponent'
 import { AuthContext } from '../context/AuthContext'
 
 const Profile = () => {
-  const { getLocation } = useContext(AuthContext)
+  const { getLocation, fetchAddress } = useContext(AuthContext)
   useEffect(() => {
     document.title = "VegFru | Profile"
     getLocation()
+    fetchAddress()
   },[])
   return (
     <div>

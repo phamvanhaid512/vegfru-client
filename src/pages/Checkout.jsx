@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import HomeNav from '../components/navs/HomeNav'
 import Delivery from '../components/cart/Delivery'
 import CheckoutCart from '../components/cart/CheckoutCart'
+import { AuthContext } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 
 const Checkout = () => {
+  const { checkOutData } = useContext(AuthContext)
+  const router = useNavigate();
+  useEffect(() => {
+    if(!checkOutData){
+      router("/dashboard")
+    }
+  }, [])
+  
   return (
     <div>
       <HomeNav />

@@ -58,7 +58,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/help' element={<Help />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/checkout' element={<Checkout />} />
+          <Route path='/checkout/:itemTotal/:tax/:distance/:totalBill/:deliveryFair' element={<Checkout />} />
           <Route path='/vendor/:storeId' element={<Vendor />} />
         </>
       ) : (
