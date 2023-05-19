@@ -6,11 +6,11 @@ import discount from "../../img/discount.png"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from '../../context/AuthContext';
 import emptyCart from "../../img/empty.png"
-import { getExpectedTime } from '../logics/logics';
+import { getExpectedTime, getExpectedFair } from '../logics/logics';
 
 
 const CartComponent = () => {
-    const { cartItem, currentStore, itemTotal, fetchDistance } = useContext(AuthContext)
+    const { cartItem, currentStore, itemTotal, fetchDistance, decreseQuantity, increaseQuantity } = useContext(AuthContext)
     const navigate = useNavigate();
     const [dist, setDist] = useState()
 
@@ -72,11 +72,11 @@ const CartComponent = () => {
                                                         </div>
                                                         <div className='flex items-center space-x-8'>
                                                             <div className='flex items-center space-x-2 border px-2 py-1 bg-green-500 text-white rounded-lg'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                                                <svg onClick={() => decreseQuantity(curr)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
                                                                 </svg>
                                                                 <p className='text-sm'>{curr.quantity}</p>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                                                <svg onClick={() => increaseQuantity(curr)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                                                                 </svg>
                                                             </div>
@@ -102,12 +102,12 @@ const CartComponent = () => {
                                     <span>₹{itemTotal && itemTotal}</span>
                                 </p>
                                 <p className='flex items-center justify-between mb-3'>
-                                    <span>Delivery Fee | 0.2 kms</span>
-                                    <span>₹15</span>
+                                    <span>Delivery Fee | {dist?.toFixed(1)} kms</span>
+                                    <span>₹{getExpectedFair(dist)}</span>
                                 </p>
                                 <div className='border-b-2 bg-gray-400'></div>
                                 <p className='flex items-center justify-between mt-3'>
-                                    <span>Govt Taxes & Other Charges</span>
+                                    <span>Govt Taxes & Other Charges (5%)</span>
                                     <span>₹{itemTotal && (itemTotal * (5 / 100))}</span>
                                 </p>
                                 <button

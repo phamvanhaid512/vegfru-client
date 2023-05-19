@@ -13,7 +13,7 @@ export const AuthContextProvider = ({ children }) => {
     const [dist, setDist] = useState()
     const [cartItem, setCartItems] = useState([])
     const [currentStore, setCurrentStore] = useState();
-    const [itemTotal, setItemTotal] = useState()
+    const [itemTotal, setItemTotal] = useState(0)
 
     // get all stores  
 
@@ -76,29 +76,49 @@ export const AuthContextProvider = ({ children }) => {
 
     // Cart feature start -------------------
 
-    const addToCart = (item) => {
-        setCartItems([...cartItem, item])
-        totalPrice();
+    const addToCart = (data) => {
+        // checking if item is already in cart or not
+        const index = cartItem.findIndex(item => item.id === data.id)
+
+        if (index != -1) {
+            // console.log("Present")          
+            // increaase the quantity and price
+            cartItem[index].quantity = cartItem[index].quantity + data.quantity
+            cartItem[index].actualPrice = cartItem[index].actualPrice + data.actualPrice
+        } else {
+            setCartItems([...cartItem, data])
+        }
+        setItemTotal(itemTotal + data.actualPrice)
     }
     const clearCart = () => {
         setCartItems([])
         setCurrentStore()
+        setItemTotal(0)
     }
     const addCurrentStore = (store) => {
         setCurrentStore(store)
     }
-    const totalPrice = () => {
-        var totalPrice = 0;
-        for (let index = 0; index < cartItem.length; index++) {
-            totalPrice += cartItem[index].price;
+    const decreseQuantity = (data) => {
+        const index = cartItem.findIndex(item => item.id === data.id)
+        cartItem[index].quantity = cartItem[index].quantity - 1;
+        cartItem[index].actualPrice = cartItem[index].actualPrice - data.price;
+        setItemTotal(itemTotal - data.price);
+        if(cartItem[index].quantity === 0){
+            const newArray = cartItem.filter(item => item.id !== index);
+            setCartItems(newArray)
         }
-        setItemTotal(totalPrice)
+    }
+    const increaseQuantity = (data) => {
+        const index = cartItem.findIndex(item => item.id === data.id)
+        cartItem[index].quantity = cartItem[index].quantity + 1;
+        cartItem[index].actualPrice = cartItem[index].actualPrice + data.price;
+        setItemTotal(itemTotal + data.price);
     }
 
     // cart feature end ---------------------
 
     return (
-        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, dist, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart }} >
+        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, dist, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity,increaseQuantity }} >
             {children}
         </AuthContext.Provider>
     )

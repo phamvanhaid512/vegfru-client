@@ -7,7 +7,6 @@ const Products = ({ singleStore }) => {
     const [quantity, setQuantity] = useState(0)
     const [id, setId] = useState();
     const { cartItem, addToCart, addCurrentStore, currentStore, clearCart } = useContext(AuthContext);
-    console.log(cartItem)
 
     const handleAdd = (curr) => {
         if(quantity == 0) return;
@@ -18,7 +17,8 @@ const Products = ({ singleStore }) => {
             toast.success("Item added to bag!", {
                 hideProgressBar: true,
                 autoClose: 1000,
-                theme: "colored"
+                theme: "colored",
+                position: "top-left"
             })
             setQuantity(0);
             setId()
@@ -35,7 +35,7 @@ const Products = ({ singleStore }) => {
     }
     const deCrement = (id) => {
         setId(id)
-        if(quantity >= 0) setQuantity(quantity + 1);
+        if(quantity > 0) setQuantity(quantity - 1);
     }
 
     return (
@@ -53,7 +53,7 @@ const Products = ({ singleStore }) => {
                                                 <img alt="ecommerce" class="object-cover object-center w-full h-full block" src={curr.image} />
                                             </a>
                                             <div class="mt-4">
-                                                <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">VEGETABLE</h3>
+                                                <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{curr.type}</h3>
                                                 <div className='flex items-center justify-between'>
                                                     <h2 class="text-gray-900 title-font text-lg font-medium">{curr.name}</h2>
                                                     <p class="mt-1">₹{curr.price}/ <span className='text-xs'>{curr.unitPerPrice + "" + curr.unit}</span></p>

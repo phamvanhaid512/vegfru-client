@@ -34,7 +34,7 @@ const HomeNav = () => {
             <Link to="/">
               <img src={logo} width={100} height={80} alt='vegfru.png' className=' cursor-pointer ' />
             </Link>
-            <div className='hidden md:flex md:flex-col flex space-x-2 mt-4 text-xs md:text-[14px]'>
+            <div className='hidden md:flex md:flex-col space-x-2 mt-4 text-xs md:text-[14px]'>
               <div className='md:flex-col'>
                 <p className='font-semibold'>Current,</p>
                 <p className='text-gray-500 font-light'>{currentPlace}</p>
