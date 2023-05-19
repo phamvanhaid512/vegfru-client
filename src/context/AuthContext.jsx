@@ -100,6 +100,7 @@ export const AuthContextProvider = ({ children }) => {
     }
     const decreseQuantity = (data) => {
         const index = cartItem.findIndex(item => item.id === data.id)
+        if(cartItem[index].quantity === 0) return;
         cartItem[index].quantity = cartItem[index].quantity - 1;
         cartItem[index].actualPrice = cartItem[index].actualPrice - data.price;
         setItemTotal(itemTotal - data.price);

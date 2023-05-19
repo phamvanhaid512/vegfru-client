@@ -26,7 +26,7 @@ const VendorDetailComponent = ({ singleStore }) => {
         <section class="text-gray-600 body-font">
             <div class="container px-5 py-24 mt-12 mx-auto flex flex-col">
                 <div class="lg:w-4/6 mx-auto">
-                    <div class="flex flex-col sm:flex-col mt-10">
+                    <div class="flex flex-col sm:flex-col md:mt-10">
                         <div class="text-center">
                             <div class="w-20 h-20 rounded-full inline-flex items-center justify-center bg-green-200 text-green-400">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
@@ -81,11 +81,6 @@ const VendorDetailComponent = ({ singleStore }) => {
                                     </List>
                                 </div>
                             </div>
-                            <a class="text-indigo-500 inline-flex items-center">Know More
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                                </svg>
-                            </a>
                         </div>
                     </div>
                 </div>
