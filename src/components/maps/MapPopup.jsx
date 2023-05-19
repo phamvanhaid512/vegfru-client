@@ -45,9 +45,9 @@ const MapPopup = ({ store }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchDistance()
+    fetchDistance(store.lat, store.long)
       .then(distance => {
-        console.log('Distance:', distance);
+        // console.log('Distance:', distance);
         setDist(distance)
       })
       .catch(error => {

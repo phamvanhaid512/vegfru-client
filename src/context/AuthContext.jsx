@@ -11,6 +11,11 @@ export const AuthContextProvider = ({ children }) => {
     const [loader, setLoader] = useState(false);
     const [stores, setStores] = useState();
     const [dist, setDist] = useState()
+    const [cartItem, setCartItems] = useState([])
+    const [currentStore, setCurrentStore] = useState();
+    const [itemTotal, setItemTotal] = useState()
+
+    // get all stores  
 
     const getStores = async () => {
         try {
@@ -20,6 +25,8 @@ export const AuthContextProvider = ({ children }) => {
             console.log(error)
         }
     }
+
+    // reverse geocoding
 
     const getPlace = async (location) => {
         try {
@@ -31,6 +38,9 @@ export const AuthContextProvider = ({ children }) => {
             console.log(error)
         }
     }
+
+
+    // get live location
 
     const getLocation = () => {
         setLoader(true);
@@ -45,13 +55,15 @@ export const AuthContextProvider = ({ children }) => {
             { enableHighAccuracy: true });
     }
 
-    const fetchDistance = async () => {
+    // get distance from coordinates -----------
+
+    const fetchDistance = async (store_lat, store_long) => {
         try {
             const response = await axios.get(
-                `https://api.mapbox.com/directions/v5/mapbox/driving/84.98562588765967,25.199631806835708;85.13706632426567,25.599772402825188?access_token=pk.eyJ1IjoiYW1yaXRtYXVyeWExNTA0IiwiYSI6ImNsZ2djNGxiaTBhOGMzY2xpcjVjM21jZzEifQ.jrekTOQzLn_x7aFnZkcW-Q`
+                `https://api.mapbox.com/directions/v5/mapbox/driving/${store_long},${store_lat};${geo[1]},${geo[0]}?access_token=${import.meta.env.VITE_MAPBOX_KEY}`
             );
             const data = response.data;
-            const distance = (data.routes[0].distance)/1000;
+            const distance = (data.routes[0].distance) / 1000;
             return distance;
             // You can set the distance in the component state or do any other processing here
         } catch (error) {
@@ -59,8 +71,34 @@ export const AuthContextProvider = ({ children }) => {
         }
     };
 
+
+    // get distance end ------------------------
+
+    // Cart feature start -------------------
+
+    const addToCart = (item) => {
+        setCartItems([...cartItem, item])
+        totalPrice();
+    }
+    const clearCart = () => {
+        setCartItems([])
+        setCurrentStore()
+    }
+    const addCurrentStore = (store) => {
+        setCurrentStore(store)
+    }
+    const totalPrice = () => {
+        var totalPrice = 0;
+        for (let index = 0; index < cartItem.length; index++) {
+            totalPrice += cartItem[index].price;
+        }
+        setItemTotal(totalPrice)
+    }
+
+    // cart feature end ---------------------
+
     return (
-        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, dist, fetchDistance }} >
+        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, dist, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart }} >
             {children}
         </AuthContext.Provider>
     )

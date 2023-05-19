@@ -49,7 +49,7 @@ const Vendor = () => {
         ) : (
           <div className='flex flex-col sm:flex-row'>
             <VendorDetailComponent singleStore={singleStore} />
-            <Products />
+            <Products singleStore={singleStore} />
           </div>
         )
       }

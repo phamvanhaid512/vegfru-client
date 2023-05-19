@@ -13,7 +13,7 @@ import { AuthContext } from './context/AuthContext';
 const endpoint = import.meta.env.VITE_API_URL;
 
 function App() {
-  const { user, setUser, getStores } = useContext(AuthContext)
+  const { user, setUser, getStores, getLocation } = useContext(AuthContext)
   const navigate = useNavigate();
 
 

@@ -1,13 +1,26 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     List,
     ListItem,
     ListIcon,
 } from '@chakra-ui/react'
-import vendor from '../../img/vendor.png'
+import { AuthContext } from "../../context/AuthContext"
+import { getExpectedTime } from '../logics/logics'
 
 const VendorDetailComponent = ({ singleStore }) => {
+    const [dist, setDistance] = useState()
+    const { fetchDistance } = useContext(AuthContext)
 
+    useEffect(() => {
+        fetchDistance(singleStore?.lat, singleStore?.long)
+            .then(distance => {
+                // console.log('Distance:', distance);
+                setDistance(distance)
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            });
+    }, [])
 
     return (
         <section class="text-gray-600 body-font">
@@ -43,14 +56,20 @@ const VendorDetailComponent = ({ singleStore }) => {
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                             </svg>
 
-                                            <strong>3.5KM&nbsp;</strong> away from you
+                                            <strong>{dist?.toFixed(1)}KM&nbsp;</strong> away from you
                                         </ListItem>
                                         <ListItem className='flex'>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-green-500 mr-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                             </svg>
-                                            Delivery in <strong>&nbsp;10MIN</strong>
+                                            {dist > 10 ? (<>
+                                               <span className='text-red-500 font-semibold'> Not Deliverable</span>
+                                            </>) : (
+                                                <>
+                                                    Expected delivery in <strong>&nbsp;{getExpectedTime(dist)} MIN</strong>
+                                                </>
+                                            )}
                                         </ListItem>
                                         <ListItem className='flex'>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-green-500 mr-1">

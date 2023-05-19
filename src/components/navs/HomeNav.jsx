@@ -19,7 +19,7 @@ import { AuthContext } from '../../context/AuthContext';
 const HomeNav = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [fun, setFun] = useState();
-  const { user, currentPlace } = useContext(AuthContext);
+  const { user, currentPlace, cartItem } = useContext(AuthContext);
 
   const handleNav = (fun) => {
     onOpen();
@@ -118,7 +118,7 @@ const HomeNav = () => {
                     </svg>
 
 
-                    <span className='bg-green-500 rounded-full text-white px-2 py-1'>0</span>
+                    <span className='bg-green-500 rounded-full text-white px-2 py-1'>{cartItem ? cartItem.length : 0}</span>
                   </div>
                 </Link>
               </li>
@@ -132,7 +132,7 @@ const HomeNav = () => {
                 </svg>
 
 
-                <span className='bg-green-500 rounded-full text-white px-2 py-1'>0</span>
+                <span className='bg-green-500 rounded-full text-white px-2 py-1'>{cartItem ? cartItem.length : 0}</span>
               </div>
             </Link>
             <svg onClick={() => handleNav("burger")} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
