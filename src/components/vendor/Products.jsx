@@ -1,30 +1,57 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { product } from '../../data/dummy';
 import { ToastContainer, toast } from 'react-toastify';
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalFooter,
+    ModalBody,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react'
+import { AiOutlineArrowLeft } from "react-icons/ai"
+import { useNavigate } from 'react-router-dom';
 
 const Products = ({ singleStore }) => {
+    const navigate = useNavigate()
     const [quantity, setQuantity] = useState(0)
     const [id, setId] = useState();
     const { cartItem, addToCart, addCurrentStore, currentStore, clearCart } = useContext(AuthContext);
 
+    // useEffect(() => {
+
+    // },[])
+
     const handleAdd = (curr) => {
-        if(quantity == 0) return;
-        if (currentStore?.storeName === singleStore.storeName || !currentStore) {
-            const item = { ...curr, quantity: quantity, actualPrice : curr.price * quantity }
-            addToCart(item);
-            addCurrentStore(singleStore)
-            toast.success("Item added to bag!", {
-                hideProgressBar: true,
-                autoClose: 1000,
+        if (singleStore.status === "Closed") {
+            toast.info("Store is Closed!", {
                 theme: "colored",
-                position: "top-left"
+                autoClose: 2000,
+                hideProgressBar: true,
+                position: "top-center"
             })
-            setQuantity(0);
-            setId()
         } else {
-            window.confirm("Want to replace your cart?")
-            clearCart()
+            if (quantity == 0) return;
+            if (currentStore?.storeName === singleStore.storeName || !currentStore) {
+                const item = { ...curr, quantity: quantity, actualPrice: curr.price * quantity }
+                addToCart(item);
+                addCurrentStore(singleStore)
+                toast.success("Item added to bag!", {
+                    hideProgressBar: true,
+                    autoClose: 1000,
+                    theme: "colored",
+                    position: "top-left"
+                })
+                setQuantity(0);
+                setId()
+            } else {
+                window.confirm("Want to replace your cart?")
+                clearCart()
+            }
         }
     }
 
@@ -35,12 +62,46 @@ const Products = ({ singleStore }) => {
     }
     const deCrement = (id) => {
         setId(id)
-        if(quantity > 0) setQuantity(quantity - 1);
+        if (quantity > 0) setQuantity(quantity - 1);
     }
 
     return (
         <section class="text-gray-600 body-font mt-32 px-5">
             <ToastContainer />
+            {/* Modal */}
+            <Modal isOpen={singleStore?.status === "Active" ? false : true}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalBody>
+                        <Alert
+                            status='warning'
+                            variant='subtle'
+                            flexDirection='column'
+                            alignItems='center'
+                            justifyContent='center'
+                            textAlign='center'
+                            height='200px'
+                        >
+                            <AlertIcon boxSize='40px' mr={0} />
+                            <AlertTitle mt={4} mb={1} fontSize='lg'>
+                                Sorry can't place your order
+                            </AlertTitle>
+                            <AlertDescription maxWidth='sm'>
+                                <div>
+                                    The store is closed right now, try buying from another stores.
+                                </div>
+                                <div onClick={() => navigate("/dashboard")} className='cursor-pointer flex bg-black text-sm text-white w-24 space-x-1 items-center px-3 py-2 rounded-md mx-auto mt-3'>
+                                    <AiOutlineArrowLeft /> <span>Go Back</span>
+                                </div>
+                            </AlertDescription>
+                        </Alert>
+                    </ModalBody>
+
+                    <ModalFooter>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            {/* Modal */}
             <div class="container mx-auto ">
                 <div class="flex flex-wrap -m-4">
                     {

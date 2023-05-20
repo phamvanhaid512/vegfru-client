@@ -61,14 +61,14 @@ const MapPopup = ({ store }) => {
     <div onClick={() => navigate(`/vendor/${store._id}`)}>
       <div className='flex items-center justify-start space-x-5 mb-5 cursor-pointer'  >
         <div className='flex flex-col items-start'>
-          <h2 className='flex items-center font-semibold text-[18px] mt-3 mb-2'>{store.storeName} <Tooltip label={`Status: Active`} textTransform="capitalize">
+          <h2 className='flex items-center font-semibold text-[18px] mt-3 mb-2'>{store.storeName} <Tooltip label={`Status: ${store.status === "Active" ? "Active" : "Closed"}`} textTransform="capitalize">
             <Box
               as="div"
               h="12px"
               w="12px"
               ml="0.5em"
               position="relative"
-              bgColor={activeColor}
+              bgColor={store.status === "Active" ? activeColor : inactiveColor}
               borderRadius="50%"
               _before={{
                 content: "''",
@@ -80,7 +80,7 @@ const MapPopup = ({ store }) => {
                 marginLeft: '-100%',
                 marginTop: '-100%',
                 borderRadius: '50%',
-                bgColor: activeColor,
+                bgColor: store.status === "Active" ? activeColor : inactiveColor,
                 animation: `2.25s ${pulseRing} cubic-bezier(0.455, 0.03, 0.515, 0.955) -0.4s infinite`,
               }}
               _after={{

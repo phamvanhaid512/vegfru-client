@@ -13,7 +13,7 @@ import { AuthContext } from './context/AuthContext';
 const endpoint = import.meta.env.VITE_API_URL;
 
 function App() {
-  const { user, setUser, getStores, getLocation } = useContext(AuthContext)
+  const { user, setUser, getLocation } = useContext(AuthContext)
   const navigate = useNavigate();
 
 
@@ -36,7 +36,6 @@ function App() {
           const res = await axios.get(`${endpoint}/api/user`, config);
           // localStorage.setItem("vegfru_token", JSON.stringify(res.data.token));
           setUser(res.data)
-          getStores()
         } else {
           console.log("Token not avaialble!")
           navigate("/");

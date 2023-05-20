@@ -109,7 +109,7 @@ const mapbox_url = `https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPB
 
 
 const MapBox = () => {
-    const { geo, setGeo, getPlace, stores } = useContext(AuthContext);
+    const { geo, setGeo, getPlace, stores, getStores } = useContext(AuthContext);
     const [position, setPosition] = useState([0, 0]);
     const [location, setLocation] = useState(null);
     // console.log("Stores => ", stores)
@@ -129,6 +129,8 @@ const MapBox = () => {
             console.log(error);
         },
         { enableHighAccuracy: true });
+
+        getStores()
     }, []);
 
     function MyLocation() {
@@ -146,6 +148,8 @@ const MapBox = () => {
         }
         return null;
     }
+
+    // console.log("Stores -> ", stores)
 
     return (
         <div className='mt-[95px]'>
