@@ -74,7 +74,7 @@ const Payment = () => {
         };
 
         try {
-            const res = await axios.post(`http://localhost:8000/api/order/create-order`, {
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/order/create-order`, {
                 items: checkOutData?.cartData.length, bill: totalBill
             }, config);
 
