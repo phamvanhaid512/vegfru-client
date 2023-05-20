@@ -71,6 +71,7 @@ export const AuthContextProvider = ({ children }) => {
         setLoader(true);
         navigator.geolocation.getCurrentPosition((position) => {
             getPlace([position.coords.latitude, position.coords.longitude])
+            setGeo([position.coords.latitude, position.coords.longitude])
             setLoader(false)
         },
             (error) => {
@@ -96,8 +97,9 @@ export const AuthContextProvider = ({ children }) => {
         }
     };
 
-
     // ---------------get distance end ------------------------
+
+
 
     // ---------------Cart feature start -------------------
 
@@ -143,8 +145,12 @@ export const AuthContextProvider = ({ children }) => {
 
     // ---------------cart feature end ---------------------
 
+
+    // ------------- set delivery address -------------------
+    const [deliveryAddress, setDeliveryAddress] = useState()
+
     return (
-        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, yourAddress, fetchAddress, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity,increaseQuantity, moveToCheckout, checkOutData }} >
+        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, yourAddress, fetchAddress, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity,increaseQuantity, moveToCheckout, checkOutData, deliveryAddress, setDeliveryAddress }} >
             {children}
         </AuthContext.Provider>
     )

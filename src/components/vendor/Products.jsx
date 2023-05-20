@@ -69,10 +69,9 @@ const Products = ({ singleStore }) => {
         <section class="text-gray-600 body-font mt-32 px-5">
             <ToastContainer />
             {/* Modal */}
-            <Modal isOpen={singleStore?.status === "Active" ? false : true}>
+            <Modal size="xl" isOpen={singleStore?.status === "Active" ? false : true}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalBody>
                         <Alert
                             status='warning'
                             variant='subtle'
@@ -80,7 +79,7 @@ const Products = ({ singleStore }) => {
                             alignItems='center'
                             justifyContent='center'
                             textAlign='center'
-                            height='200px'
+                            height='300px'
                         >
                             <AlertIcon boxSize='40px' mr={0} />
                             <AlertTitle mt={4} mb={1} fontSize='lg'>
@@ -95,10 +94,6 @@ const Products = ({ singleStore }) => {
                                 </div>
                             </AlertDescription>
                         </Alert>
-                    </ModalBody>
-
-                    <ModalFooter>
-                    </ModalFooter>
                 </ModalContent>
             </Modal>
             {/* Modal */}

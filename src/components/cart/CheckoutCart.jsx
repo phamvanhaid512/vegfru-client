@@ -60,7 +60,7 @@ const CheckoutCart = () => {
 
             {/* Bills */}
             <div className='text-sm'>
-                <h4 className='text-light'>Bill Details</h4>
+                <h4 className='text-light text-[18px] mb-1 font-semibold'>Bill Details</h4>
                 <p className='flex items-center justify-between'>
                     <span>Item Total</span>
                     <span>₹{itemTotal}</span>
