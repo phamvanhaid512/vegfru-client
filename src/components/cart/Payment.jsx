@@ -82,7 +82,7 @@ const Payment = () => {
                 alert("Something went wrong!")
             }
             const options = {
-                "key": `${import.meta.env.VITE_RAZORPAY_KEY}`, // Enter the Key ID generated from the Dashboard
+                "key": 'rzp_test_G3gA5dRpgezWGS', // Enter the Key ID generated from the Dashboard
                 "amount": res.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": res.data.currency,
                 "name": "Vegfru Bill",
