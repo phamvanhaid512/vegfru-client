@@ -37,21 +37,38 @@ function loadScript(src) {
 
 
 const Payment = () => {
-    const [orderData, setOrderData] = useState()
     const [isPayment, setIsPayment] = useState(false);
     const { checkOutData, user, loader, setLoader, deliveryAddress, setDeliveryAddress } = useContext(AuthContext)
     const params = useParams()
-    const {tax, itemTotal, deliveryFair, totalBill} = params;
+    const { tax, itemTotal, deliveryFair, totalBill } = params;
     const navigate = useNavigate()
-    console.log(orderData)
+
+    const handleAddOrder = async (body) => {
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
+                },
+            };
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/order/add-order`,
+                body
+                , config)
+            if (data.success) {
+                setIsPayment(true);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handlePayment = async () => {
 
         if (deliveryAddress === undefined) {
             toast.warning("Choose address!", {
-                theme : "colored",
-                autoClose : 2000,
-                hideProgressBar : true
+                theme: "colored",
+                autoClose: 2000,
+                hideProgressBar: true
             })
             return;
         }
@@ -90,10 +107,9 @@ const Payment = () => {
                 "image": "https://res.cloudinary.com/amritrajmaurya/image/upload/v1681850742/vegetables_pjh2oq.png",
                 "order_id": res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler": function (response) {
-                    
+
                     console.log(response)
                     const data = {
-                        customerId: user._id,
                         itemsOrdered: checkOutData?.cartData,
                         storeId: checkOutData?.storeData._id,
                         paymentDetails: {
@@ -104,15 +120,16 @@ const Payment = () => {
                         toAddress: deliveryAddress._id,
                         orderDate: new Date(),
                         billDetails: {
-                            mrp : itemTotal,
-                            tax : tax,
-                            deliverFair : deliveryFair,
-                            totalBill : totalBill
-                        } ,
+                            mrp: itemTotal,
+                            tax: tax,
+                            deliverFair: deliveryFair,
+                            totalBill: totalBill
+                        },
+                        vendorId: checkOutData?.storeData.vendorId,
                         receipt: res.data.receipt
                     }
-                    setOrderData(data)
-                    setIsPayment(true);
+                    handleAddOrder(data);
+                    setLoader(false);
                 },
                 "prefill": {
                     "name": user.name,
@@ -134,8 +151,6 @@ const Payment = () => {
                 alert(response.error.metadata.order_id);
                 alert(response.error.metadata.payment_id);
             });
-
-            setLoader(false);
         } catch (error) {
             console.log(error);
         }
