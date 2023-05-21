@@ -29,13 +29,10 @@ const ProfileComponent = () => {
     }
 
     const logout = async () => {
-        try {
             localStorage.removeItem("jwt");
             setUser();
             navigate("/");
-        } catch (error) {
-            console.log(error);
-        }
+
     }
 
     return (

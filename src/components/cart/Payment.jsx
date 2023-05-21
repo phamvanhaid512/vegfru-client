@@ -139,6 +139,7 @@ const Payment = () => {
         } catch (error) {
             console.log(error);
         }
+        setLoader(false);
     }
 
     const handleNavigate = () => {

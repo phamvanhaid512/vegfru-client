@@ -47,10 +47,16 @@ const Vendor = () => {
             <HashLoader color="#36d7b7" />
           </div>
         ) : (
-          <div className='flex flex-col sm:flex-row'>
-            <VendorDetailComponent singleStore={singleStore} />
-            <Products singleStore={singleStore} />
+
+          <div className="flex sm:flex-row flex-col  justify-evenly">
+            <div className="sm:w-1/3  sm:border-r-2 flex flex-col">
+              <VendorDetailComponent singleStore={singleStore} />
+            </div>
+            <div className="sm:w-3/4">
+              <Products singleStore={singleStore} />
+            </div>
           </div>
+
         )
       }
     </div >

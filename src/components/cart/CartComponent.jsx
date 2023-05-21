@@ -32,7 +32,7 @@ const CartComponent = () => {
             storeData : currentStore,
             cartData : cartItem
         }
-        const tax = itemTotal * (5 / 100)
+        const tax = (itemTotal * (5 / 100))
         const distance = dist.toFixed(1)
         const delieryFair = getExpectedFair(distance)
         const totalBill = itemTotal + tax + delieryFair;
@@ -79,8 +79,8 @@ const CartComponent = () => {
                                                         <div className='flex items-center space-x-4'>
                                                             <img src={cartIcons} alt="" className='flex-shrink-0 rounded-full h-8 w-8 object-center sm:mb-0 mb-4' />
                                                             <div>
-                                                                <p className='text-sm '>{curr.name}</p>
-                                                                <small>₹{curr.price + "/" + curr.unitPerPrice + "" + curr.unit}</small>
+                                                                <p className='text-sm '>{curr.productName}</p>
+                                                                <small className='text-[10px]'>₹{curr.productPrice + " /" + curr.productBaseUnit + "" + curr.productUnit}</small>
                                                             </div>
                                                         </div>
                                                         <div className='flex items-center space-x-8'>
@@ -121,7 +121,7 @@ const CartComponent = () => {
                                 <div className='border-b-2 bg-gray-400'></div>
                                 <p className='flex items-center justify-between mt-3'>
                                     <span>Govt Taxes & Other Charges (5%)</span>
-                                    <span>₹{itemTotal && (itemTotal * (5 / 100))}</span>
+                                    <span>₹{itemTotal && (itemTotal * (5 / 100)).toFixed(2)}</span>
                                 </p>
                                 <button
                                     onClick={handleProceed}

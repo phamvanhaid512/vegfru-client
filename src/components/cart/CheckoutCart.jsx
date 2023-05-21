@@ -35,8 +35,8 @@ const CheckoutCart = () => {
                                         <div className='flex items-center space-x-4'>
                                             <img src={cartIcons} alt="" className='flex-shrink-0 rounded-full h-8 w-8 object-center sm:mb-0 mb-4' />
                                             <div>
-                                                <p className='text-sm '>{curr.name}</p>
-                                                <small>₹{curr.price + "/" + curr.unitPerPrice + " " + curr.unit}</small>
+                                                <p className='text-sm '>{curr.productName}</p>
+                                                <small>₹{curr.productPrice + "/" + curr.productBaseUnit + " " + curr.productUnit}</small>
                                             </div>
                                         </div>
                                         <div className='flex items-center space-x-8'>

@@ -105,7 +105,7 @@ export const AuthContextProvider = ({ children }) => {
 
     const addToCart = (data) => {
         // checking if item is already in cart or not
-        const index = cartItem.findIndex(item => item.id === data.id)
+        const index = cartItem.findIndex(item => item._id === data._id)
 
         if (index != -1) {
             // console.log("Present")          
@@ -126,21 +126,21 @@ export const AuthContextProvider = ({ children }) => {
         setCurrentStore(store)
     }
     const decreseQuantity = (data) => {
-        const index = cartItem.findIndex(item => item.id === data.id)
+        const index = cartItem.findIndex(item => item._id === data._id)
         if(cartItem[index].quantity === 0) return;
         cartItem[index].quantity = cartItem[index].quantity - 1;
-        cartItem[index].actualPrice = cartItem[index].actualPrice - data.price;
-        setItemTotal(itemTotal - data.price);
+        cartItem[index].actualPrice = cartItem[index].actualPrice - data.productPrice;
+        setItemTotal(itemTotal - data.productPrice);
         if(cartItem[index].quantity === 0){
-            const newArray = cartItem.filter(item => item.id !== index);
+            const newArray = cartItem.filter(item => item._id !== index);
             setCartItems(newArray)
         }
     }
     const increaseQuantity = (data) => {
-        const index = cartItem.findIndex(item => item.id === data.id)
+        const index = cartItem.findIndex(item => item._id === data._id)
         cartItem[index].quantity = cartItem[index].quantity + 1;
-        cartItem[index].actualPrice = cartItem[index].actualPrice + data.price;
-        setItemTotal(itemTotal + data.price);
+        cartItem[index].actualPrice = cartItem[index].actualPrice + data.productPrice;
+        setItemTotal(itemTotal + data.productPrice);
     }
 
     // ---------------cart feature end ---------------------
