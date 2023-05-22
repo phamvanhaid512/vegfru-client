@@ -6,7 +6,7 @@ import discount from "../../img/discount.png"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from '../../context/AuthContext';
 import emptyCart from "../../img/empty.png"
-import { getExpectedTime, getExpectedFair } from '../logics/logics';
+import { getExpectedTime, getExpectedFair, getTax } from '../logics/logics';
 
 
 const CartComponent = () => {
@@ -32,7 +32,7 @@ const CartComponent = () => {
             storeData : currentStore,
             cartData : cartItem
         }
-        const tax = (itemTotal * (5 / 100))
+        const tax = getTax(itemTotal)
         const distance = dist.toFixed(1)
         const delieryFair = getExpectedFair(distance)
         const totalBill = itemTotal + tax + delieryFair;
@@ -121,7 +121,7 @@ const CartComponent = () => {
                                 <div className='border-b-2 bg-gray-400'></div>
                                 <p className='flex items-center justify-between mt-3'>
                                     <span>Govt Taxes & Other Charges (5%)</span>
-                                    <span>₹{itemTotal && (itemTotal * (5 / 100)).toFixed(2)}</span>
+                                    <span>₹{itemTotal && getTax(itemTotal)}</span>
                                 </p>
                                 <button
                                     onClick={handleProceed}
@@ -129,7 +129,7 @@ const CartComponent = () => {
                                     className="mt-3 flex w-full justify-center border-transparent bg-green-500 py-4 px-4 text-sm font-medium text-white shadow-sm "
                                 >
                                     Proceed to checkout <span className='text-[18px] font-semibold ml-2'>₹{
-                                        itemTotal + getExpectedFair(dist) + (itemTotal * (5 / 100))
+                                        itemTotal + getExpectedFair(dist) + getTax(itemTotal)
                                     }</span>
                                 </button>
                             </div>

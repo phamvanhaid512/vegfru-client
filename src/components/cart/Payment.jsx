@@ -108,7 +108,7 @@ const Payment = () => {
                 "order_id": res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler": function (response) {
 
-                    console.log(response)
+                    // console.log(response)
                     const data = {
                         itemsOrdered: checkOutData?.cartData,
                         storeId: checkOutData?.storeData._id,

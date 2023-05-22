@@ -12,3 +12,7 @@ export const getExpectedFair = (dist) => {
     else if (dist > 2 && dist <= 5) return 25
     else return 40
 }
+export const getTax = (itemTotal) => {
+    const tax = (itemTotal * (5 / 100)).toFixed(2)
+    return parseInt(tax);
+}

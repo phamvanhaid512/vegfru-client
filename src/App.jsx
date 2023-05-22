@@ -9,6 +9,7 @@ import { useContext, useEffect } from 'react';
 import axios from 'axios';
 import Vendor from './pages/Vendor';
 import { AuthContext } from './context/AuthContext';
+import Orderdetail from './pages/Orderdetail';
 
 const endpoint = import.meta.env.VITE_API_URL;
 
@@ -59,6 +60,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/checkout/:itemTotal/:tax/:distance/:totalBill/:deliveryFair' element={<Checkout />} />
           <Route path='/vendor/:storeId' element={<Vendor />} />
+          <Route path='/order-details/:orderId' element={<Orderdetail />} />
         </>
       ) : (
         // If user doesn't exist, redirect to login page
