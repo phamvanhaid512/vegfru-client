@@ -25,6 +25,7 @@ const Products = ({ singleStore }) => {
     const [product, setProduct] = useState();
     const [id, setId] = useState();
     const { cartItem, addToCart, addCurrentStore, currentStore, clearCart } = useContext(AuthContext);
+    const [loader, setLoader] = useState(false)
 
 
     const handleAdd = (curr) => {
@@ -71,6 +72,7 @@ const Products = ({ singleStore }) => {
 
     // fetch products 
     const fetchProduct = async () => {
+        setLoader(true)
         try {
             const config = {
                 headers: {
@@ -83,6 +85,7 @@ const Products = ({ singleStore }) => {
         } catch (error) {
             console.log(error)
         }
+        setLoader(false)
     }
 
 
@@ -122,43 +125,56 @@ const Products = ({ singleStore }) => {
                 </ModalContent>
             </Modal>
             {/* Modal */}
-            <div class="container mx-auto ">
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 md:gap-4 ">
-                    {
-                        product?.length > 0 ? (
-                            product?.map((curr, i) => {
-                                return (
-                                    <>
-                                        <div className='md:p-4 w-full h-[230px] flex flex-col justify-between'>
-                                            <div className='flex justify-center items-center'>
-                                                <Image src={curr.productImage} className='w-32 h-32 rounded-full border-4 border-gray-300 object-contain' alt='Dan Abramov' />
-                                            </div>
-                                            <div className='flex justify-between'>
-                                                <h2 class="text-gray-900 title-font text-lg font-medium">{curr.productName}</h2>
-                                                <p class="mt-1">₹{curr.productPrice}/ <span className='text-xs'>{curr.productBaseUnit + "" + curr.productUnit}</span></p>
-                                            </div>
-                                            <div className='flex justify-between'>
-                                                <div className='flex items-center space-x-4'>
-                                                    <svg onClick={() => deCrement(curr._id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 px-1 cursor-pointer font-semibold bg-green-200 rounded-lg ">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
-                                                    </svg>
-                                                    <p className='text-sm'>{id === curr._id ? quantity : "0"}</p>
-                                                    <svg onClick={() => inCreament(curr._id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 px-1 cursor-pointer font-semibold bg-green-200  rounded-lg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-                                                    </svg>
+            {loader ? <HashLoader color="#36d7b7" /> : (
+                <>
+                    <div class="container mx-auto ">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 md:gap-4 ">
+                            {
+                                product?.length > 0 ? (
+                                    product?.map((curr, i) => {
+                                        return (
+                                            <>
+                                                <div className='md:p-4 w-full h-[230px] flex flex-col justify-between'>
+                                                    <div className='flex justify-center items-center'>
+                                                        <Image src={curr.productImage} className='w-32 h-32 rounded-full border-4 border-gray-300 object-contain' alt='Dan Abramov' />
+                                                    </div>
+                                                    <div className='flex justify-between'>
+                                                        <h2 class="text-gray-900 title-font text-lg font-medium">{curr.productName}</h2>
+                                                        <p class="mt-1">₹{curr.productPrice}/ <span className='text-xs'>{curr.productBaseUnit + "" + curr.productUnit}</span></p>
+                                                    </div>
+                                                    <div className='flex justify-between'>
+                                                        <div className='flex items-center space-x-4'>
+                                                            <svg onClick={() => deCrement(curr._id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 px-1 cursor-pointer font-semibold bg-green-200 rounded-lg ">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                                                            </svg>
+                                                            <p className='text-sm'>{id === curr._id ? quantity : "0"}</p>
+                                                            <svg onClick={() => inCreament(curr._id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 px-1 cursor-pointer font-semibold bg-green-200  rounded-lg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                                                            </svg>
+                                                        </div>
+                                                        <div onClick={() => handleAdd(curr)} className='flex items-center space-x-2 border px-5 py-1 bg-green-500 cursor-pointer text-white border-none rounded-lg'>
+                                                            Add
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div onClick={() => handleAdd(curr)} className='flex items-center space-x-2 border px-5 py-1 bg-green-500 cursor-pointer text-white border-none rounded-lg'>
-                                                    Add
-                                                </div>
-                                            </div>
+                                            </>
+                                        )
+                                    })
+                                ) : (
+                                    <div className='w-96'
+                                    >
+                                        <h2 className='text-xl'> Sorry can't place your order!</h2>
+                                        <p className='mt-2 text-sm'> This store doesn't have any products, try buying another from store!</p>
+                                        <div onClick={() => navigate("/dashboard")} className='cursor-pointer flex items-center space-x-2 w-28 mt-2 bg-green-100 border-green-100 text-green-500 border p-3'>
+                                            <AiOutlineArrowLeft /> <span>Go Back</span>
                                         </div>
-                                    </>
+                                    </div>
                                 )
-                            })
-                        ) : <p>No Products!</p>
-                    }
-                </div>
-            </div>
+                            }
+                        </div>
+                    </div>
+                </>
+            )}
         </section>
     )
 }

@@ -15,9 +15,10 @@ import AddAddress from './AddAddress'
 import { AuthContext } from '../../context/AuthContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { Badge } from '@chakra-ui/react'
 
 
-const ProfileComponent = () => {
+const ProfileComponent = ({orderList, totalOrder}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [fun, setFun] = useState()
     const navigate = useNavigate();
@@ -29,9 +30,9 @@ const ProfileComponent = () => {
     }
 
     const logout = async () => {
-            localStorage.removeItem("jwt");
-            setUser();
-            navigate("/");
+        localStorage.removeItem("jwt");
+        setUser();
+        navigate("/");
 
     }
 
@@ -62,8 +63,8 @@ const ProfileComponent = () => {
                                         {
                                             currentPlace
                                         }
-                                        <p className='text-sm mt-4'>Total Orders : <span className='font-semibold'>45</span></p>
                                     </div>
+                                    <Badge className='mt-3'>Total Orders : <span className='font-semibold'>{totalOrder ? totalOrder : 0}</span></Badge>
                                 </div>
                                 <div>
                                     <a onClick={() => handleClick("add")} class="mt-3 cursor-pointer text-white bg-green-500 px-2 py-1 text-sm inline-flex items-center">Add Address
@@ -78,7 +79,7 @@ const ProfileComponent = () => {
                                     </TabList>
                                     <TabPanels>
                                         <TabPanel>
-                                            <Orders />
+                                            <Orders orderList={orderList} />
                                         </TabPanel>
                                         <TabPanel>
                                             <Address />

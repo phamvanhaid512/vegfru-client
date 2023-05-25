@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { GrLocationPin, GrLocation } from "react-icons/gr";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
-import { AuthContext } from "../../context/AuthContext";
+import { getValue } from "../logics/logics"
 
-const DeliveryDetails = ({selectedOrder}) => {
+const DeliveryDetails = ({ selectedOrder }) => {
   const [value, setValue] = useState("1");
   return (
     <div>
@@ -35,7 +35,7 @@ const DeliveryDetails = ({selectedOrder}) => {
               <GrLocation size={40} className="mb-2" />
               <div>
                 <h1 className="title-font text-lg font-semibold text-gray-900">
-                    {selectedOrder?.customerId.name}
+                  {selectedOrder?.customerId.name}
                 </h1>
                 <p class="leading-relaxed">
                   {selectedOrder?.toAddress.address + " " + selectedOrder?.toAddress.place}
@@ -51,10 +51,19 @@ const DeliveryDetails = ({selectedOrder}) => {
 
       <div className="sm:mx-5 border-t-2">
         <h3 className="text-xl font-semibold mb-4 mt-8">Current Order Status</h3>
-        <RadioGroup onChange={setValue} value={value}>
+        <RadioGroup value={getValue(selectedOrder?.orderStatus)}>
           <Stack>
             <Radio size="md" name="1" value="1" colorScheme="green">
-              {selectedOrder?.orderStatus}
+              <span >Accepted</span>
+            </Radio>
+            <Radio size="md" name="2" value="2" colorScheme="green">
+              <span >Processing</span>
+            </Radio>
+            <Radio size="md" name="3" value="3" colorScheme="green">
+              <span >Out for Delivery</span>
+            </Radio>
+            <Radio size="md" name="4" value="4" colorScheme="green">
+              <span >Delivered</span>
             </Radio>
           </Stack>
         </RadioGroup>

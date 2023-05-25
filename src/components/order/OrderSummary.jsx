@@ -1,5 +1,5 @@
 import React from "react";
-
+import { getDate } from "../logics/logics";
 
 const OrderSummary = ({selectedOrder}) => {    
     return (
@@ -12,7 +12,7 @@ const OrderSummary = ({selectedOrder}) => {
                 </h3>
                 <div class="border-b-2 border-black mt-2 w-8"></div>
                 <p className="leading-relaxed text-gray-400 sm:text-md mt-2 sm:ml-4">
-                    Placed on {selectedOrder?.orderDate}
+                    Placed on - {getDate(selectedOrder?.orderDate)}
                 </p>
             </div>
 

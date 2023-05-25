@@ -2,14 +2,27 @@ import React, { useContext, useEffect, useState } from 'react'
 import {
     List,
     ListItem,
-    ListIcon,
+    Badge,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    Image
 } from '@chakra-ui/react'
 import { AuthContext } from "../../context/AuthContext"
+import { AiFillStar } from "react-icons/ai"
 import { getExpectedTime } from '../logics/logics'
+import { AiOutlineArrowLeft } from "react-icons/ai"
+import { useNavigate } from 'react-router-dom'
+import emptyStore from "../../img/grocery-store.png"
 
 const VendorDetailComponent = ({ singleStore }) => {
     const [dist, setDistance] = useState()
     const { fetchDistance } = useContext(AuthContext)
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchDistance(singleStore?.lat, singleStore?.long)
@@ -24,15 +37,39 @@ const VendorDetailComponent = ({ singleStore }) => {
 
     return (
         <section class="text-gray-600 body-font">
+            <Modal size="xl" isOpen={dist > 10 ? true : false} >
+                <ModalOverlay />
+                <ModalContent>
+                    <Alert
+                        status='info'
+                        variant='subtle'
+                        flexDirection='column'
+                        alignItems='center'
+                        justifyContent='center'
+                        textAlign='center'
+                        height='300px'
+                    >
+                        <AlertIcon boxSize='40px' mr={0} />
+                        <AlertTitle mt={4} mb={1} fontSize='lg'>
+                            Sorry can't delivery to your location.
+                        </AlertTitle>
+                        <AlertDescription maxWidth='sm'>
+                            <div>
+                                The store is far from your location, try buying from another stores.
+                            </div>
+                            <div onClick={() => navigate("/dashboard")} className='cursor-pointer flex bg-black text-sm text-white w-24 space-x-1 items-center px-3 py-2 rounded-md mx-auto mt-3'>
+                                <AiOutlineArrowLeft /> <span>Go Back</span>
+                            </div>
+                        </AlertDescription>
+                    </Alert>
+                </ModalContent>
+            </Modal>
             <div class="container px-5 py-24 mt-12 mx-auto flex flex-col">
                 <div class="lg:w-4/6 mx-auto">
                     <div class="flex flex-col sm:flex-col md:mt-10">
                         <div class="text-center">
-                            <div class="w-20 h-20 rounded-full inline-flex items-center justify-center bg-green-200 text-green-400">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
-                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
+                            <div class="w-16 h-16 rounded-full inline-flex items-center justify-center bg-green-200 text-green-400">
+                                <img src={emptyStore} />
                             </div>
                             <div class="flex flex-col items-center text-center justify-center">
                                 <h2 class="font-medium title-font mt-4 text-gray-900 text-lg">{singleStore?.storeName}</h2>
@@ -76,21 +113,21 @@ const VendorDetailComponent = ({ singleStore }) => {
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                                             </svg>
 
-                                            Like - <span className='text-red-600 font-semibold ml-1'>{singleStore?.like.length}</span>, &nbsp; Rating - &nbsp; <span className='font-semibold text-green-500'>4.5/<span className='text-gray-600'>5.0</span></span>
+                                            Like - <span className='text-red-600 font-semibold ml-1'>{singleStore?.like.length}</span>, &nbsp; Rating - &nbsp; <span className='flex items-center space-x-1 font-semibold text-green-500'>4.5/<span className='text-gray-600'>5.0</span> <AiFillStar /></span>
                                         </ListItem>
                                         <ListItem className='flex'>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-green-500 mr-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                                             </svg>
 
-                                            Total Orders - <span className='text-gray-600 font-semibold ml-1'>23</span>
+                                            Total successful orders - <span className='text-gray-600 font-semibold ml-1'>23</span>
                                         </ListItem>
                                         <ListItem className='flex'>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-green-500 mr-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                                             </svg>
 
-                                            Status - <span className={`${singleStore?.status === "Active" ? "text-green-600" : "text-red-600"} font-semibold text-md ml-1`}>{singleStore?.status}</span>
+                                            <Badge>Status - <span className={`${singleStore?.status === "Active" ? "text-green-600" : "text-red-600"} font-semibold text-md ml-1`}>{singleStore?.status === "Active" ? "Open" : singleStore?.status}</span></Badge>
                                         </ListItem>
                                     </List>
                                 </div>

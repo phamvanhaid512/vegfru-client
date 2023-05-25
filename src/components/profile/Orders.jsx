@@ -1,34 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import axios from "axios"
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
+import moment from "moment";
+import { getStatus } from "../logics/logics"
+import { Badge } from '@chakra-ui/react'
 
-const Orders = () => {
-    const { setSelectedOrder } = useContext(AuthContext)
+const Orders = ({orderList}) => {
     const navigate = useNavigate()
-    const [orderList, setOrderList] = useState()
 
-    const fetchOrder = async () => {
-        try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
-
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/order/customer/get-order`, config);
-            // console.log(data)
-            setOrderList(data.orderData)
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(() => {
-        fetchOrder()
-    }, [])
 
     const handleNavigate = (curr) => {
         navigate(`/order-details/${curr._id}`)
@@ -51,11 +29,9 @@ const Orders = () => {
                                         <div className='flex items-center justify-between'>
                                             <h2 class="text-gray-900 text-lg title-font font-medium">{curr.storeId.storeName}
                                             </h2>
-                                            <a class="font-semibold text-xs inline-flex items-center uppercase">{curr.orderStatus}
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="text-green-500 ml-2 w-5 h-5 ">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-
+                                            <a class="font-light text-xs inline-flex items-center">{moment(curr.orderDate).utc().fromNow() == "a day ago"
+                                                ? "yesterday"
+                                                : moment(curr.orderDate).utc().fromNow()}
                                             </a>
                                         </div>
                                         <small>{curr.storeId.storeAddress}</small>
@@ -65,13 +41,15 @@ const Orders = () => {
                                                 <p>₹{curr.billDetails.totalBill}</p>
                                             </div>
                                         </p>
+                                        <Badge colorScheme={getStatus(curr.orderStatus)}>{curr.orderStatus}
+                                        </Badge>
 
                                     </div>
                                 </div>
                             </div>
                         </section>
                     )
-                }) : <p>No orders you have!</p>
+                }).reverse() : <p>No orders you have!</p>
             }
 
         </>

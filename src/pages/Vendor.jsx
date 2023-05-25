@@ -48,7 +48,7 @@ const Vendor = () => {
           </div>
         ) : (
 
-          <div className="flex sm:flex-row flex-col  justify-evenly">
+          <div className="flex sm:flex-row flex-col">
             <div className="sm:w-1/3  sm:border-r-2 flex flex-col">
               <VendorDetailComponent singleStore={singleStore} />
             </div>

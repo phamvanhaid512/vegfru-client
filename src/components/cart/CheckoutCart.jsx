@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom"
 import Payment from './Payment';
 import { AuthContext } from '../../context/AuthContext';
 import { getExpectedTime } from '../logics/logics';
+import storeIcon from "../../img/grocery-store.png"
 
 const CheckoutCart = () => {
     const { checkOutData } = useContext(AuthContext)
@@ -16,10 +17,7 @@ const CheckoutCart = () => {
             <div class="flex flex-col -m-4 px-5 ms:px-0">
                 <div class="border rounded-lg p-4">
                     <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
-                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 ml-4 text-green-400" viewBox="0 0 24 24">
-                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4" className='bg-green-200'></circle>
-                        </svg>
+                    <img className='h-14 w-14' src={storeIcon} />
                         <div class="flex-grow sm:pl-8">
                             <h2 class="title-font font-medium text-lg text-gray-900">{checkOutData?.storeData.storeName}</h2>
                             <h3 class="text-gray-500 text-xs">{checkOutData?.storeData.storeAddress}</h3>
