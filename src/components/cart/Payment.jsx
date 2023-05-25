@@ -158,7 +158,7 @@ const Payment = () => {
     }
 
     const handleNavigate = () => {
-        navigate("/profile")
+        navigate("/route/profile")
         setDeliveryAddress()
     }
 

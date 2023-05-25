@@ -58,7 +58,7 @@ const MapPopup = ({ store }) => {
 
   return (
 
-    <div onClick={() => navigate(`/vendor/${store._id}`)}>
+    <div onClick={() => navigate(`/route/vendor/${store._id}`)}>
       <div className='flex items-center justify-start space-x-5 mb-5 cursor-pointer'  >
         <div className='flex flex-col items-start'>
           <h2 className='flex items-center font-semibold text-[18px] mt-3 mb-2'>{store.storeName} <Tooltip label={`Status: ${store.status === "Active" ? "Active" : "Closed"}`} textTransform="capitalize">

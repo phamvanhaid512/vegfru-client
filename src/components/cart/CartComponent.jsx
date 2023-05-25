@@ -37,7 +37,7 @@ const CartComponent = () => {
         const delieryFair = getExpectedFair(distance)
         const totalBill = itemTotal + tax + delieryFair;
         moveToCheckout(dataToBePlaced)
-        navigate(`/checkout/${itemTotal}/${tax}/${distance}/${totalBill}/${delieryFair}`)
+        navigate(`/route/checkout/${itemTotal}/${tax}/${distance}/${totalBill}/${delieryFair}`)
     }
 
     return (

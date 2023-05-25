@@ -14,25 +14,27 @@ import EditProfile from './EditProfile'
 import AddAddress from './AddAddress'
 import { AuthContext } from '../../context/AuthContext'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { Badge } from '@chakra-ui/react'
+import { doLogout } from '../logics/logics'
 
 
-const ProfileComponent = ({orderList, totalOrder}) => {
+const ProfileComponent = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [fun, setFun] = useState()
     const navigate = useNavigate();
-    const { user, currentPlace, setUser } = useContext(AuthContext)
+    const { user, currentPlace, setUser, totalOrder, orderList } = useContext(AuthContext)
 
     const handleClick = (drawer) => {
         setFun(drawer);
         onOpen()
     }
 
-    const logout = async () => {
-        localStorage.removeItem("jwt");
-        setUser();
-        navigate("/");
+    const logout = () => {
+        if (doLogout()){
+            setUser();
+            <Navigate to={"/"} />
+        }
 
     }
 

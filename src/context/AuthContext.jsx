@@ -100,6 +100,23 @@ export const AuthContextProvider = ({ children }) => {
     // ---------------get distance end ------------------------
 
 
+    // -------------- get user data start -------------------
+
+    const fetchUser = async () => {
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
+            },
+        };
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/user`, config);
+        // localStorage.setItem("vegfru_token", JSON.stringify(res.data.token));
+        setUser(res.data)
+        console.log(res.data)
+    }
+
+    //--------------- get user data end ---------------------
+
 
     // ---------------Cart feature start -------------------
 
@@ -127,11 +144,11 @@ export const AuthContextProvider = ({ children }) => {
     }
     const decreseQuantity = (data) => {
         const index = cartItem.findIndex(item => item._id === data._id)
-        if(cartItem[index].quantity === 0) return;
+        if (cartItem[index].quantity === 0) return;
         cartItem[index].quantity = cartItem[index].quantity - 1;
         cartItem[index].actualPrice = cartItem[index].actualPrice - data.productPrice;
         setItemTotal(itemTotal - data.productPrice);
-        if(cartItem[index].quantity === 0){
+        if (cartItem[index].quantity === 0) {
             const newArray = cartItem.filter(item => item._id !== index);
             setCartItems(newArray)
         }
@@ -149,8 +166,34 @@ export const AuthContextProvider = ({ children }) => {
     // ------------- set delivery address -------------------
     const [deliveryAddress, setDeliveryAddress] = useState()
 
+
+    // ------------- fetch all orders start -----------------------
+    const [totalOrder, setTotalOrder] = useState();
+    const [orderList, setOrderList] = useState()
+
+    const fetchOrder = async () => {
+        try {
+          const config = {
+            headers: {
+              "Content-type": "application/json",
+              "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
+            },
+          };
+    
+          const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/order/customer/get-order`, config);
+          // console.log(data)
+          setOrderList(data.orderData)
+          setTotalOrder(data.orderData.length)
+    
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+    //  -------------------- fetch all orders end-----------------------
+
     return (
-        <AuthContext.Provider value={{ user, setUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, yourAddress, fetchAddress, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity,increaseQuantity, moveToCheckout, checkOutData, deliveryAddress, setDeliveryAddress }} >
+        <AuthContext.Provider value={{ user, setUser, fetchUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, yourAddress, fetchAddress, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity, increaseQuantity, moveToCheckout, checkOutData, deliveryAddress, setDeliveryAddress, fetchOrder, totalOrder, orderList }} >
             {children}
         </AuthContext.Provider>
     )

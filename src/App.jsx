@@ -10,62 +10,31 @@ import axios from 'axios';
 import Vendor from './pages/Vendor';
 import { AuthContext } from './context/AuthContext';
 import Orderdetail from './pages/Orderdetail';
-
-const endpoint = import.meta.env.VITE_API_URL;
+import PrivateRoutes from './components/PrivateRoutes';
+import { isLogin } from './components/logics/logics';
 
 function App() {
-  const { user, setUser, getLocation } = useContext(AuthContext)
-  const navigate = useNavigate();
-
-
+  const { fetchUser, getLocation, fetchAddress, fetchOrder } = useContext(AuthContext)
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        // const isUser = Object.keys(user.value).length !== 0; // Check if user exists
-        // console.log(isUser);
-
-        const isToken = JSON.parse(localStorage.getItem("jwt"));
-
-        if (isToken) { // If user doesn't exist
-          console.log("Yes present")
-          const config = {
-            headers: {
-              "Content-type": "application/json",
-              "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-            },
-          };
-          const res = await axios.get(`${endpoint}/api/user`, config);
-          // localStorage.setItem("vegfru_token", JSON.stringify(res.data.token));
-          setUser(res.data)
-        } else {
-          console.log("Token not avaialble!")
-          navigate("/");
-        }
-      } catch (error) {
-        navigate("/"); // Navigate to login page if an error occurs
-      }
+    if(isLogin()){
+      fetchUser();
+      fetchAddress();
+      fetchOrder();
     }
-    checkUser();
-  }, [])
-
+    getLocation();
+  },[])
   return (
     <Routes>
       <Route exact path="/" element={<Banner />} />
-      {user ? (
-        // If user exists, show the protected routes
-        <>
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/help' element={<Help />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/checkout/:itemTotal/:tax/:distance/:totalBill/:deliveryFair' element={<Checkout />} />
-          <Route path='/vendor/:storeId' element={<Vendor />} />
-          <Route path='/order-details/:orderId' element={<Orderdetail />} />
-        </>
-      ) : (
-        // If user doesn't exist, redirect to login page
-        <Route path="*" element={navigate("/")} />
-      )}
+      <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/about' element={<About />} />
+      <Route path='/help' element={<Help />} />
+      <Route path='/route' element={<PrivateRoutes />} >
+        <Route path='profile' element={<Profile />} />
+        <Route path='checkout/:itemTotal/:tax/:distance/:totalBill/:deliveryFair' element={<Checkout />} />
+        <Route path='vendor/:storeId' element={<Vendor />} />
+        <Route path='order-details/:orderId' element={<Orderdetail />} />
+      </Route>
     </Routes>
   );
 }

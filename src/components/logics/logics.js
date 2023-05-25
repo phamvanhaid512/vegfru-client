@@ -1,6 +1,9 @@
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+
 export const getName = (user) => {
-    const userName = user.name;
-    return userName.split(" ")[0];
+    const userName = user?.name;
+    return userName?.split(" ")[0];
 }
 export const getExpectedTime = (dist) => {
     if (dist <= 2) return "10-15"
@@ -33,4 +36,19 @@ export const getDate = (date) => {
     const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     const newDate = new Date(date);
     return `${day[newDate.getDay()]} ${month[newDate.getMonth()]} ${newDate.getDate()}-${newDate.getFullYear()} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`
+}
+export const isLogin = () => {
+    const isToken = JSON.parse(localStorage.getItem("jwt"));
+    if(isToken !== null){
+        return true;
+    }
+    else false;
+}
+export const doLogout = () => {
+    localStorage.removeItem("jwt")
+    const isToken = JSON.parse(localStorage.getItem("jwt"));
+    if(isToken === null){
+        return true;
+    }
+    else false;
 }
