@@ -38,7 +38,7 @@ function loadScript(src) {
 
 const Payment = () => {
     const [isPayment, setIsPayment] = useState(false);
-    const { checkOutData, user, loader, setLoader, deliveryAddress, setDeliveryAddress } = useContext(AuthContext)
+    const { checkOutData, user, loader, setLoader, deliveryAddress, setDeliveryAddress, fetchOrder } = useContext(AuthContext)
     const params = useParams()
     const { tax, itemTotal, deliveryFair, totalBill } = params;
     const navigate = useNavigate()
@@ -158,6 +158,7 @@ const Payment = () => {
     }
 
     const handleNavigate = () => {
+        fetchOrder()
         navigate("/route/profile")
         setDeliveryAddress()
     }

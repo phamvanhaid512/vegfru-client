@@ -14,7 +14,7 @@ const override = {
 const endpoint = import.meta.env.VITE_API_URL;
 
 const Login = ({ handleClick }) => {
-    const { setUser } = useContext(AuthContext);
+    const { setUser, fetchAddress, fetchOrder } = useContext(AuthContext);
     const [loader, setLoader] = useState(false);
     const [phone, setPhone] = useState();
     const [password, setPassword] = useState();
@@ -48,6 +48,8 @@ const Login = ({ handleClick }) => {
                 theme: "colored",
             });
             setLoader(false);
+            fetchAddress();
+            fetchOrder();
             navigate("/dashboard");
 
 

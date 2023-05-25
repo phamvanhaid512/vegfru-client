@@ -16,7 +16,9 @@ import Login from '../components/auth/Login';
 import Signup from "../components/auth/Signup"
 import { Link } from "react-router-dom"
 import { AuthContext } from '../context/AuthContext';
-import PropagateLoader from "react-spinners/PropagateLoader"
+import { FaStore } from "react-icons/fa"
+import { FcAbout } from "react-icons/fc"
+import { BiHelpCircle } from "react-icons/bi"
 
 
 const override = {
@@ -52,6 +54,7 @@ export default function Banner() {
       <div className="flex h-screen">
         <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-[#ffffff] ">
           <div className="mx-auto w-full max-w-sm lg:w-96 ">
+  
             <div>
               <div className="flex items-center">
                 <img
@@ -117,18 +120,23 @@ export default function Banner() {
                       type="submit"
                       className="mt-4 flex w-full justify-center border-transparent bg-[#B33331] py-4 px-4 text-sm font-medium text-white shadow-sm "
                     >
-                      {
-                        loader ? (
-                          <PropagateLoader color="#ffffff" cssOverride={override} size={13} />
-                        ) : "Locate me"
-                      }
+
+                      Locate me
                     </button>
                   </Link>
                 </form>
               </div>
 
             </div>
-            <p className='text-center absolute bottom-10 text-gray-600 px-20'> Copyright &copy; VegFru 2023 | Design & <br /> Developed by <a className='font-medium underline' href='https://linktr.ee/rajamrit'>Amrit Raj</a></p>
+            <p className='text-center absolute bottom-10 text-gray-600 px-20'> Copyright &copy; VegFru 2023 | Design & <br /> Developed by <a className='font-medium underline' href='https://linktr.ee/rajamrit'>Amrit Raj</a>
+
+            <div className='flex items-center justify-center mt-3 space-x-4'>
+              <Link to="/dashboard"><FaStore size={25} className='cursor-pointer' /></Link>
+              <Link to="/about"><FcAbout size={25} className='cursor-pointer' /></Link>
+              <Link to="/help"><BiHelpCircle size={25} className='cursor-pointer' /></Link>
+            </div>
+            
+            </p>
           </div>
         </div>
         <div className="relative hidden w-0 flex-1 lg:block">

@@ -9,6 +9,14 @@
             "value": "vercel.app"
           }
         ]
+      },
+      {
+        "routes": [
+          {
+            "src": "/[^.]+",
+            "dest": "/"
+          }
+        ]
       }
     ]
   }

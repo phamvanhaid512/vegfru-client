@@ -22,7 +22,6 @@ import { doLogout } from '../logics/logics'
 const ProfileComponent = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [fun, setFun] = useState()
-    const navigate = useNavigate();
     const { user, currentPlace, setUser, totalOrder, orderList } = useContext(AuthContext)
 
     const handleClick = (drawer) => {

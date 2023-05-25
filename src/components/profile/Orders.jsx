@@ -9,7 +9,7 @@ const Orders = ({orderList}) => {
 
 
     const handleNavigate = (curr) => {
-        navigate(`/order-details/${curr._id}`)
+        navigate(`/route/order-details/${curr._id}`)
     }
 
     return (
