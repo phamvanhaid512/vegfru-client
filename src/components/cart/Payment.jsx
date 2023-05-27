@@ -14,6 +14,7 @@ import {
     AlertDescription,
 } from '@chakra-ui/react'
 import { ToastContainer, toast } from 'react-toastify'
+import FireWorks from './FireWorks'
 
 const override = {
     display: "block",
@@ -195,6 +196,9 @@ const Payment = () => {
 
                 </ModalContent>
             </Modal>
+            {
+                isPayment && <FireWorks />
+            }
             {/* Modal */}
             <section class="text-gray-600 body-font">
                 <h2 className='text-xl font-semibold '>Choose payment method</h2>

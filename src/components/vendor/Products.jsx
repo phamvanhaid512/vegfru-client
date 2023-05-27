@@ -56,9 +56,6 @@ const Products = ({ singleStore }) => {
             }
         }
     }
-
-    console.log(cartItem)
-
     // quantity counter
     const inCreament = (id) => {
         setId(id)
@@ -94,7 +91,7 @@ const Products = ({ singleStore }) => {
     }, [])
 
     return (
-        <section class="text-gray-600 body-font mt-32 px-10">
+        <section class="text-gray-600 body-font md:mt-32 px-10">
             <ToastContainer />
             {/* Modal */}
             <Modal size="xl" isOpen={singleStore?.status === "Active" ? false : true}>
@@ -127,7 +124,7 @@ const Products = ({ singleStore }) => {
             {/* Modal */}
             {loader ? <HashLoader color="#36d7b7" /> : (
                 <>
-                    <div class="container mx-auto ">
+                    <div class="container mx-auto md:overflow-y-scroll md:h-screen md:scrollbar-hide">
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 md:gap-4 ">
                             {
                                 product?.length > 0 ? (

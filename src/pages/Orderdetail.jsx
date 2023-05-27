@@ -5,6 +5,18 @@ import HomeNav from '../components/navs/HomeNav'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import HashLoader from "react-spinners/HashLoader"
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    Button
+} from '@chakra-ui/react'
+import Ratings from '../components/order/Ratings'
 
 
 const Orderdetail = () => {
@@ -13,6 +25,8 @@ const Orderdetail = () => {
     const _id = params.orderId
     const [selectedOrder, setSelectedOrder] = useState()
     const [isLoader, setIsLoader] = useState(false);
+    const { onClose } = useDisclosure()
+    const [isPopup, setIsPopUp] = useState(false)
 
     const fetchSingleOrder = async () => {
         setIsLoader(true)
@@ -26,6 +40,9 @@ const Orderdetail = () => {
 
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/order/customer/get-order/${_id}`, config);
             console.log(data)
+            if (data.orderData.orderStatus === "Delivered"){
+                setIsPopUp(true)
+            }
             setSelectedOrder(data.orderData)
         } catch (error) {
             console.log(error)
@@ -40,6 +57,16 @@ const Orderdetail = () => {
     return (
         <div>
             <HomeNav />
+            <Modal blockScrollOnMount={false} isOpen={isPopup} onClose={() => setIsPopUp(false)}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader className='text-green-500' >Your Order is Delivered! </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Ratings setIsPopUp={setIsPopUp} storeId={selectedOrder?.storeId._id} />
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
             {
                 isLoader ? (
                     <div className='flex justify-center mt-[400px]'>
