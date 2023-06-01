@@ -62,13 +62,13 @@ const Address = () => {
         <div>
             <ToastContainer />
             <section class="text-gray-600 body-font">
-                <div class="container px-5 flex flex-wrap">
-                    {yourAddress?.length > 0 && <p className='text-md'>Manage Addresses</p>}
+                <div class="flex flex-wrap">
+                    {/* {yourAddress?.length > 0 && <p className='text-md'>Manage Addresses</p>} */}
                     <div class="flex flex-col -m-4">
                         {
                             yourAddress?.length > 0 ? yourAddress.map((curr) => {
                                 return (
-                                    <div class="px-4 mt-3 pt-4" key={curr._id}>
+                                    <div class="" key={curr._id}>
                                         <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
                                             <div class="w-16 h-16 sm:mr-8 ml-20 md:ml-0 sm:mb-0 mb-4 inline-flex items-center justify-center rounded-full bg-green-100 text-green-500 flex-shrink-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -78,13 +78,13 @@ const Address = () => {
 
                                             </div>
                                             <div class="flex-grow">
-                                                <h2 class="text-gray-800 text-lg title-font font-semibold text-md mb-3">{curr.type}</h2>
-                                                <p class="leading-relaxed text-base">{curr.address + " " + curr.place}</p>
+                                                <h2 class="text-gray-800 font-semibold text-lg mb-3">{curr.type}</h2>
+                                                <p class="leading-relaxed text-sm">{curr.address + " " + curr.place}</p>
                                                 <small>Landmark : {curr.landmark}</small>
                                                 <div className='space-x-3'>
-                                                    <a onClick={() => handleClick(curr)} class="cursor-pointer mt-3 text-green-500 border border-green-500 px-4 py-1 text-sm inline-flex items-center">Edit
+                                                    <a onClick={() => handleClick(curr)} class="cursor-pointer mt-3 text-green-500 border border-green-500 px-4 py-1 text-xs inline-flex items-center">Edit
                                                     </a>
-                                                    <a onClick={() => handleDelete(curr._id)} class="mt-3 text-white bg-green-500 cursor-pointer px-2 py-1 text-sm inline-flex items-center">Delete
+                                                    <a onClick={() => handleDelete(curr._id)} class="mt-3 text-white bg-green-500 cursor-pointer px-2 py-1 text-xs inline-flex items-center">Delete
                                                     </a>
                                                 </div>
                                             </div>

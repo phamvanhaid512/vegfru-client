@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import moment from "moment";
 import { getStatus } from "../logics/logics"
 import { Badge } from '@chakra-ui/react'
+import { AuthContext } from '../../context/AuthContext';
 
 const Orders = ({orderList}) => {
     const navigate = useNavigate()
-
-
+    const { fetchOrder } = useContext(AuthContext)
+    
+    useEffect(() => {
+        fetchOrder();
+    },[])
     const handleNavigate = (curr) => {
         navigate(`/route/order-details/${curr._id}`)
     }

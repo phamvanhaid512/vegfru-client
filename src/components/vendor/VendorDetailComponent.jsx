@@ -134,29 +134,33 @@ const VendorDetailComponent = ({ singleStore }) => {
                                         </ListItem>
                                     </List>
                                 </div>
-                                <div className='md:block hidden mt-5 text-sm px-2 font-semibold'>
-                                    <h2 className='mb-3'>Reviews & Ratings</h2>
-                                    <div className=''>
-                                        {
-                                            singleStore?.comments.map((review) => {
-                                                return (
-                                                    <span class="flex space-x-2 mb-3 pl-4 py-2 border-b">
-                                                        <span className='rounded-md flex text-green-500 '>4.5 <AiFillStar /></span>
-                                                        <div className='flex flex-col'>
-                                                            <div className='flex space-x-1'>
-                                                                <span class="font-medium text-gray-900">{review.clientId.name}</span>
-                                                                <span class="text-[11px] font-medium text-gray-400">{moment(review.time).utc().fromNow() == "a day ago"
-                                                                    ? "yesterday"
-                                                                    : moment(review.time).utc().fromNow()}</span>
-                                                            </div>
-                                                            <span class="text-gray-600 text-xs">{review.comment}</span>
-                                                        </div>
-                                                    </span>
-                                                )
-                                            }).reverse()
-                                        }
-                                    </div>
-                                </div>
+                                {
+                                    singleStore?.comments.length !== 0 && (
+                                        <div className='md:block hidden mt-5 text-sm px-2 font-semibold'>
+                                            <h2 className='mb-3'>Reviews & Ratings</h2>
+                                            <div className=''>
+                                                {
+                                                    singleStore?.comments.map((review) => {
+                                                        return (
+                                                            <span class="flex space-x-2 mb-3 pl-4 py-2 border-b">
+                                                                <span className='rounded-md flex text-green-500 '>4.5 <AiFillStar /></span>
+                                                                <div className='flex flex-col'>
+                                                                    <div className='flex space-x-1'>
+                                                                        <span class="font-medium text-gray-900">{review.clientId.name}</span>
+                                                                        <span class="text-[11px] font-medium text-gray-400">{moment(review.time).utc().fromNow() == "a day ago"
+                                                                            ? "yesterday"
+                                                                            : moment(review.time).utc().fromNow()}</span>
+                                                                    </div>
+                                                                    <span class="text-gray-600 text-xs">{review.comment}</span>
+                                                                </div>
+                                                            </span>
+                                                        )
+                                                    }).reverse()
+                                                }
+                                            </div>
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>
