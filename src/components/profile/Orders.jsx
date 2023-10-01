@@ -31,18 +31,18 @@ const Orders = ({orderList}) => {
                                     </div>
                                     <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
                                         <div className='flex items-center justify-between'>
-                                            <h2 class="text-gray-900 text-lg title-font font-medium">{curr.storeId.storeName}
+                                            <h2 class="text-gray-900 text-lg title-font font-medium">{curr.storeId?.storeName}
                                             </h2>
                                             <a class="font-light text-xs inline-flex items-center">{moment(curr.orderDate).utc().fromNow() == "a day ago"
                                                 ? "yesterday"
                                                 : moment(curr.orderDate).utc().fromNow()}
                                             </a>
                                         </div>
-                                        <small>{curr.storeId.storeAddress}</small>
+                                        <small>{curr.storeId?.storeAddress}</small>
                                         <p class="leading-relaxed text-base">
                                             <div class="mt-1 flex items-center justify-between">
                                                 <small className='font-semibold'>{curr.itemsOrdered.length} Item(s)</small>
-                                                <p>₹{curr.billDetails.totalBill}</p>
+                                                <p>₹{curr.billDetails?.totalBill}</p>
                                             </div>
                                         </p>
                                         <Badge colorScheme={getStatus(curr.orderStatus)}>{curr.orderStatus}

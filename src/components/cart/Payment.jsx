@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react'
 import { ToastContainer, toast } from 'react-toastify'
 import FireWorks from './FireWorks'
+import { loadStripe } from '@stripe/stripe-js';
+
 
 const override = {
     display: "block",
@@ -63,6 +65,103 @@ const Payment = () => {
         }
     }
 
+    //! RAZORPAY INTEGRATION //
+    // const handlePayment = async () => {
+
+    //     if (deliveryAddress === undefined) {
+    //         toast.warning("Choose address!", {
+    //             theme: "colored",
+    //             autoClose: 2000,
+    //             hideProgressBar: true
+    //         })
+    //         return;
+    //     }
+
+    //     setLoader(true)
+    //     console.log("Payment Clicked!")
+
+    //     const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+
+    //     if (!res) {
+    //         alert('Razorpay SDK failed to load. Are you online?')
+    //         return
+    //     }
+
+    //     const config = {
+    //         headers: {
+    //             "Content-type": "application/json",
+    //             "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
+    //         },
+    //     };
+
+    //     try {
+    //         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/order/create-order`, {
+    //             items: checkOutData?.cartData.length, bill: totalBill
+    //         }, config);
+
+    //         if (!res) {
+    //             alert("Something went wrong!")
+    //         }
+    //         const options = {
+    //             "key": 'rzp_test_G3gA5dRpgezWGS', // Enter the Key ID generated from the Dashboard
+    //             "amount": res.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    //             "currency": res.data.currency,
+    //             "name": "Vegfru Bill",
+    //             "description": res.data.notes.desc,
+    //             "image": "https://res.cloudinary.com/amritrajmaurya/image/upload/v1681850742/vegetables_pjh2oq.png",
+    //             "order_id": res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    //             "handler": function (response) {
+
+    //                 // console.log(response)
+    //                 const data = {
+    //                     itemsOrdered: checkOutData?.cartData,
+    //                     storeId: checkOutData?.storeData._id,
+    //                     paymentDetails: {
+    //                         orderId: response.razorpay_order_id,
+    //                         paymentId: response.razorpay_payment_id,
+    //                         signature: response.razorpay_signature
+    //                     },
+    //                     toAddress: deliveryAddress._id,
+    //                     orderDate: new Date(),
+    //                     billDetails: {
+    //                         mrp: itemTotal,
+    //                         tax: tax,
+    //                         deliverFair: deliveryFair,
+    //                         totalBill: totalBill
+    //                     },
+    //                     vendorId: checkOutData?.storeData.vendorId,
+    //                     receipt: res.data.receipt
+    //                 }
+    //                 handleAddOrder(data);
+    //                 setLoader(false);
+    //             },
+    //             "prefill": {
+    //                 "name": user.name,
+    //                 "email": user.email,
+    //                 "contact": user.phone
+    //             },
+    //         };
+
+    //         var rzp1 = new window.Razorpay(options);
+
+    //         rzp1.open();
+
+    //         rzp1.on('payment.failed', function (response) {
+    //             alert(response.error.code);
+    //             alert(response.error.description);
+    //             alert(response.error.source);
+    //             alert(response.error.step);
+    //             alert(response.error.reason);
+    //             alert(response.error.metadata.order_id);
+    //             alert(response.error.metadata.payment_id);
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    //     setLoader(false);
+    // }
+
+    //! STRIPE INTEGERATION
     const handlePayment = async () => {
 
         if (deliveryAddress === undefined) {
@@ -74,15 +173,8 @@ const Payment = () => {
             return;
         }
 
-        setLoader(true)
-        console.log("Payment Clicked!")
-
-        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
-
-        if (!res) {
-            alert('Razorpay SDK failed to load. Are you online?')
-            return
-        }
+        console.log(checkOutData, deliveryAddress)
+        const stripe = await loadStripe(`${import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY}`);
 
         const config = {
             headers: {
@@ -91,71 +183,31 @@ const Payment = () => {
             },
         };
 
-        try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/order/create-order`, {
-                items: checkOutData?.cartData.length, bill: totalBill
-            }, config);
+        const orderData = {
+            storeData: checkOutData.storeData,
+            cartData: checkOutData.cartData,
+            shippingAddress: deliveryAddress,
+            bill: parseInt(deliveryFair) + parseInt(tax),
+            billDetails: {
+                mrp: itemTotal,
+                tax: tax,
+                deliverFair: deliveryFair,
+                totalBill: totalBill
+            },
+        };
 
-            if (!res) {
-                alert("Something went wrong!")
-            }
-            const options = {
-                "key": 'rzp_test_G3gA5dRpgezWGS', // Enter the Key ID generated from the Dashboard
-                "amount": res.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                "currency": res.data.currency,
-                "name": "Vegfru Bill",
-                "description": res.data.notes.desc,
-                "image": "https://res.cloudinary.com/amritrajmaurya/image/upload/v1681850742/vegetables_pjh2oq.png",
-                "order_id": res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "handler": function (response) {
+        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/stripe/create-checkout-session`, { orderData: orderData }, config);
 
-                    // console.log(response)
-                    const data = {
-                        itemsOrdered: checkOutData?.cartData,
-                        storeId: checkOutData?.storeData._id,
-                        paymentDetails: {
-                            orderId: response.razorpay_order_id,
-                            paymentId: response.razorpay_payment_id,
-                            signature: response.razorpay_signature
-                        },
-                        toAddress: deliveryAddress._id,
-                        orderDate: new Date(),
-                        billDetails: {
-                            mrp: itemTotal,
-                            tax: tax,
-                            deliverFair: deliveryFair,
-                            totalBill: totalBill
-                        },
-                        vendorId: checkOutData?.storeData.vendorId,
-                        receipt: res.data.receipt
-                    }
-                    handleAddOrder(data);
-                    setLoader(false);
-                },
-                "prefill": {
-                    "name": user.name,
-                    "email": user.email,
-                    "contact": user.phone
-                },
-            };
+        console.log(data);
 
-            var rzp1 = new window.Razorpay(options);
+        const result = stripe.redirectToCheckout({
+            sessionId: data.id
+        })
 
-            rzp1.open();
-
-            rzp1.on('payment.failed', function (response) {
-                alert(response.error.code);
-                alert(response.error.description);
-                alert(response.error.source);
-                alert(response.error.step);
-                alert(response.error.reason);
-                alert(response.error.metadata.order_id);
-                alert(response.error.metadata.payment_id);
-            });
-        } catch (error) {
-            console.log(error);
+        if (result.error) {
+            console.log(result.error)
         }
-        setLoader(false);
+
     }
 
     const handleNavigate = () => {

@@ -27,7 +27,8 @@ const Vendor = () => {
         },
       };
       const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/vendor/get-store/${storeId}`, config)
-      setSingleStore(data.store);
+      setSingleStore(data.stores);
+      console.log(data);
     } catch (error) {
       console.log(error)
     }
@@ -61,9 +62,9 @@ const Vendor = () => {
               <h2 className='mb-3 mt-3'>Reviews & Ratings</h2>
               <div className=''>
                 {
-                  singleStore?.comments.map((review) => {
+                  singleStore?.comments.map((review, i) => {
                     return (
-                      <span class="flex space-x-2 mb-3 pl-4 py-2 border-b">
+                      <span key={i} class="flex space-x-2 mb-3 pl-4 py-2 border-b">
                         <span className='rounded-md flex text-green-500 '>4.5 <AiFillStar /></span>
                         <div className='flex flex-col'>
                           <div className='flex space-x-1'>

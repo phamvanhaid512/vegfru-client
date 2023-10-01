@@ -129,7 +129,8 @@ const MapBox = () => {
             console.log(error);
         },
         { enableHighAccuracy: true });
-
+        // setLocation([22.494218039187892, 88.40666547090323])
+        // setGeo([22.494218039187892, 88.40666547090323])
         getStores()
     }, []);
 

@@ -131,7 +131,7 @@ const Products = ({ singleStore }) => {
                                     product?.map((curr, i) => {
                                         return (
                                             <>
-                                                <div className='md:p-4 w-full h-[230px] flex flex-col justify-between'>
+                                                <div key={curr._id} className='md:p-4 w-full h-[230px] flex flex-col justify-between'>
                                                     <div className='flex justify-center items-center'>
                                                         <Image src={curr.productImage} className='w-32 h-32 rounded-full border-4 border-gray-300 object-contain' alt='Dan Abramov' />
                                                     </div>

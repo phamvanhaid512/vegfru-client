@@ -79,6 +79,9 @@ export const AuthContextProvider = ({ children }) => {
                 setLoader(false)
             },
             { enableHighAccuracy: true });
+        
+        // getPlace([22.494218039187892, 88.40666547090323])
+        // setGeo([22.494218039187892, 88.40666547090323])
     }
 
     // ---------------get distance from coordinates -----------
@@ -112,7 +115,7 @@ export const AuthContextProvider = ({ children }) => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/user`, config);
         // localStorage.setItem("vegfru_token", JSON.stringify(res.data.token));
         setUser(res.data)
-        console.log(res.data)
+        // console.log(res.data)
     }
 
     //--------------- get user data end ---------------------
@@ -173,22 +176,22 @@ export const AuthContextProvider = ({ children }) => {
 
     const fetchOrder = async () => {
         try {
-          const config = {
-            headers: {
-              "Content-type": "application/json",
-              "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-            },
-          };
-    
-          const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/order/customer/get-order`, config);
-          // console.log(data)
-          setOrderList(data.orderData)
-          setTotalOrder(data.orderData.length)
-    
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
+                },
+            };
+
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/order/customer/get-order`, config);
+            // console.log(data)
+            setOrderList(data.orderData)
+            setTotalOrder(data.orderData.length)
+
         } catch (error) {
-          console.log(error)
+            console.log(error)
         }
-      }
+    }
 
     //  -------------------- fetch all orders end-----------------------
 
