@@ -18,13 +18,13 @@ import Cancel from './pages/Cancel';
 function App() {
   const { fetchUser, getLocation, fetchAddress, fetchOrder } = useContext(AuthContext)
   useEffect(() => {
-    if(isLogin()){
+    if (isLogin()) {
       fetchUser();
       fetchAddress();
       fetchOrder();
     }
-    // getLocation();
-  },[])
+    getLocation();
+  }, [])
   return (
     <Routes>
       <Route exact path="/" element={<Banner />} />

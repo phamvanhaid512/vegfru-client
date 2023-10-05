@@ -1,17 +1,16 @@
 import React, { useContext, useState } from 'react'
 import oip from "../../img/OIP.jpeg"
 import { ToastContainer, toast } from 'react-toastify';
-import axios from "axios"
 import PropagateLoader from "react-spinners/PropagateLoader"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from '../../context/AuthContext';
+import { login } from "../../http/index"
 
 const override = {
     display: "block",
     marginBottom: "12px",
 };
 
-const endpoint = import.meta.env.VITE_API_URL;
 
 const Login = ({ handleClick }) => {
     const { setUser, fetchAddress, fetchOrder } = useContext(AuthContext);
@@ -24,29 +23,11 @@ const Login = ({ handleClick }) => {
         e.preventDefault();
         setLoader(true);
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                },
-            };
-
-            const { data } = await axios.post(`${endpoint}/api/user/login`,
-                { phone, password },
-                config);
-
-            localStorage.setItem("jwt", JSON.stringify(data.token));
-            // console.log(data.userLogin);
+            const { data } = await login({phone, password})
+            console.log(data);
+            localStorage.setItem("auth", data.auth);
+            //// console.log(data.userLogin);
             setUser(data.userLogin);
-            toast.success(data.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
             setLoader(false);
             fetchAddress();
             fetchOrder();
@@ -65,6 +46,7 @@ const Login = ({ handleClick }) => {
                 theme: "colored",
             });
             setLoader(false);
+            console.log(error);
         }
 
     }
@@ -77,7 +59,7 @@ const Login = ({ handleClick }) => {
                     <div>
                         <h3 className='text-4xl font-semibold mb-2'>Login</h3>
                         <p>or <span onClick={() => handleClick('signup')} className='text-[#096F65] font-semibold cursor-pointer'>create an account</span></p>
-                        <div class="border-b-2 border-black mt-4 w-8"></div>
+                        <div className="border-b-2 border-black mt-4 w-8"></div>
                     </div>
                     <img src={oip} className='h-16 w-16' />
                 </div>

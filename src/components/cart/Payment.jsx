@@ -16,6 +16,7 @@ import {
 import { ToastContainer, toast } from 'react-toastify'
 import FireWorks from './FireWorks'
 import { loadStripe } from '@stripe/stripe-js';
+import { createPayment } from '../../http'
 
 
 const override = {
@@ -176,13 +177,6 @@ const Payment = () => {
         console.log(checkOutData, deliveryAddress)
         const stripe = await loadStripe(`${import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY}`);
 
-        const config = {
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-            },
-        };
-
         const orderData = {
             storeData: checkOutData.storeData,
             cartData: checkOutData.cartData,
@@ -196,8 +190,7 @@ const Payment = () => {
             },
         };
 
-        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/stripe/create-checkout-session`, { orderData: orderData }, config);
-
+        const { data } = await createPayment({ orderData: orderData });
         console.log(data);
 
         const result = stripe.redirectToCheckout({

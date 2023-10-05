@@ -4,10 +4,10 @@ import VendorDetailComponent from '../components/vendor/VendorDetailComponent'
 import Products from '../components/vendor/Products'
 import HashLoader from "react-spinners/HashLoader"
 import { AuthContext } from '../context/AuthContext'
-import axios from 'axios'
 import { AiFillStar } from 'react-icons/ai'
 import moment from 'moment'
 import { useParams } from 'react-router-dom'
+import { getStore } from '../http'
 
 
 const Vendor = () => {
@@ -20,15 +20,9 @@ const Vendor = () => {
   const getStoreById = async () => {
     setLoader(true)
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-        },
-      };
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/vendor/get-store/${storeId}`, config)
+      const { data } = await getStore(storeId);
       setSingleStore(data.stores);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.log(error)
     }

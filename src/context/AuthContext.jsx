@@ -1,11 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { fetchStores, getAddress, getOrders, getUser } from "../http";
 
 export const AuthContext = createContext();
 
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState();
+    const [isAuth, setIsAuth] = useState(false);
     const [currentPlace, setCurrentPlace] = useState();
     const [geo, setGeo] = useState();
     const [loader, setLoader] = useState(false);
@@ -23,14 +25,8 @@ export const AuthContextProvider = ({ children }) => {
     // ------- Gets customers all address start -------------
     const fetchAddress = async () => {
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
-
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/get-alladdress`, config);
+            const { data } = await getAddress();
+            console.log(data);
             setYourAddress(data);
         } catch (error) {
             alert(error);
@@ -44,7 +40,7 @@ export const AuthContextProvider = ({ children }) => {
 
     const getStores = async () => {
         try {
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/get-stores`);
+            const { data } = await fetchStores();
             setStores(data.stores);
         } catch (error) {
             console.log(error)
@@ -92,6 +88,7 @@ export const AuthContextProvider = ({ children }) => {
                 `https://api.mapbox.com/directions/v5/mapbox/driving/${store_long},${store_lat};${geo[1]},${geo[0]}?access_token=${import.meta.env.VITE_MAPBOX_KEY}`
             );
             const data = response.data;
+            console.log(data);
             const distance = (data.routes[0].distance) / 1000;
             return distance;
             // You can set the distance in the component state or do any other processing here
@@ -106,14 +103,7 @@ export const AuthContextProvider = ({ children }) => {
     // -------------- get user data start -------------------
 
     const fetchUser = async () => {
-        const config = {
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-            },
-        };
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/user`, config);
-        // localStorage.setItem("vegfru_token", JSON.stringify(res.data.token));
+        const res = await getUser();
         setUser(res.data)
         // console.log(res.data)
     }
@@ -176,14 +166,8 @@ export const AuthContextProvider = ({ children }) => {
 
     const fetchOrder = async () => {
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
-
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/order/customer/get-order`, config);
+            
+            const { data } = await getOrders();
             // console.log(data)
             setOrderList(data.orderData)
             setTotalOrder(data.orderData.length)
@@ -196,7 +180,7 @@ export const AuthContextProvider = ({ children }) => {
     //  -------------------- fetch all orders end-----------------------
 
     return (
-        <AuthContext.Provider value={{ user, setUser, fetchUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, yourAddress, fetchAddress, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity, increaseQuantity, moveToCheckout, checkOutData, deliveryAddress, setDeliveryAddress, fetchOrder, totalOrder, orderList }} >
+        <AuthContext.Provider value={{ user, setUser, isAuth, setIsAuth, fetchUser, currentPlace, getPlace, setGeo, geo, getLocation, loader, setLoader, getStores, stores, yourAddress, fetchAddress, fetchDistance, addToCart, cartItem, addCurrentStore, currentStore, itemTotal, clearCart, decreseQuantity, increaseQuantity, moveToCheckout, checkOutData, deliveryAddress, setDeliveryAddress, fetchOrder, totalOrder, orderList }} >
             {children}
         </AuthContext.Provider>
     )

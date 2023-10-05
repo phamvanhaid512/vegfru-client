@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import oip from "../../img/OIP.jpeg"
 import { ToastContainer, toast } from 'react-toastify';
-import axios from "axios"
 import PropagateLoader  from "react-spinners/PropagateLoader"
+import { register } from '../../http';
 
 const override = {
     display: "block",
     marginBottom : "12px",
 };
-
-const endpoint = import.meta.env.VITE_API_URL;
 
 const Signup = ({ handleClick }) => {
     const [loader, setLoader] = useState(false);
@@ -22,15 +20,8 @@ const Signup = ({ handleClick }) => {
         e.preventDefault();
         setLoader(true);
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                },
-            };
 
-            const { data } = await axios.post(`${endpoint}/api/user/register`,
-                { phone, name, email, password },
-                config);
+            const { data } = await register({ phone, name, email, password });
 
             toast.success(data.message, {
                 position: "top-right",

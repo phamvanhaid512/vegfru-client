@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
 
 export const getName = (user) => {
     const userName = user?.name;
@@ -38,16 +36,8 @@ export const getDate = (date) => {
     return `${day[newDate.getDay()]} ${month[newDate.getMonth()]} ${newDate.getDate()}-${newDate.getFullYear()} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`
 }
 export const isLogin = () => {
-    const isToken = JSON.parse(localStorage.getItem("jwt"));
-    if(isToken !== null){
-        return true;
-    }
-    else false;
-}
-export const doLogout = () => {
-    localStorage.removeItem("jwt")
-    const isToken = JSON.parse(localStorage.getItem("jwt"));
-    if(isToken === null){
+    const isAuth = JSON.parse(localStorage.getItem("auth"));
+    if(isAuth !== null && isAuth === true){
         return true;
     }
     else false;

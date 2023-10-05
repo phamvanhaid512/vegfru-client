@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const Cancel = () => {
+
+  useEffect(() => {
+    document.title = "Order Canceld | VegFru"
+  }, []);
+
   return (
     <div class="bg-gray-100">
       <div class="min-h-screen flex items-center justify-center">

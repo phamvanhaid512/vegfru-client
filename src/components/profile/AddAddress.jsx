@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css"
 import axios from "axios"
 import PropagateLoader from "react-spinners/PropagateLoader"
 import { AuthContext } from '../../context/AuthContext';
+import { addAddress } from '../../http';
 
 const override = {
     display: "block",
@@ -62,12 +63,6 @@ const AddAddress = () => {
         e.preventDefault();
         setLoader(true);
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
 
             const newAddress = {
                 place: currentPlace,
@@ -80,7 +75,7 @@ const AddAddress = () => {
 
             console.log(newAddress);
 
-            const { data } = await axios.post(`${endpoint}/api/user/add-address`, newAddress, config);
+            const { data } = await addAddress(newAddress);
 
             toast.success(data.message, {
                 position: "top-right",

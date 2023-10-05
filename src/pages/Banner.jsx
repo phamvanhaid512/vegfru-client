@@ -54,7 +54,7 @@ export default function Banner() {
       <div className="flex h-screen">
         <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-[#ffffff] ">
           <div className="mx-auto w-full max-w-sm lg:w-96 ">
-  
+
             <div>
               <div className="flex items-center">
                 <img
@@ -70,31 +70,51 @@ export default function Banner() {
             </div>
 
             <div className="mt-8">
-              <div>
-                <div>
-                  <div className="mt-1 grid grid-cols-2 gap-3">
+              {!user ? (
+                <>
+                  <div>
                     <div>
-                      <a
-                        onClick={() => handleClick('login')}
-                        href="#"
-                        className="inline-flex w-full justify-center border border-gray-300 py-4 px-4 text-sm font-medium text-gray-500 shadow-sm"
-                      >
-                        Login
-                      </a>
-                    </div>
+                      <div className="mt-1 grid grid-cols-2 gap-3">
+                        <div>
+                          <a
+                            onClick={() => handleClick('login')}
+                            href="#"
+                            className="inline-flex w-full justify-center border border-gray-300 py-4 px-4 text-sm font-medium text-gray-500 shadow-sm"
+                          >
+                            Login
+                          </a>
+                        </div>
 
-                    <div>
-                      <a
-                        onClick={() => handleClick('signup')}
-                        href="#"
-                        className="inline-flex w-full justify-center border bg-[#373737] py-4 px-4 text-sm font-medium text-white shadow-sm"
-                      >
-                        Sign up
-                      </a>
+                        <div>
+                          <a
+                            onClick={() => handleClick('signup')}
+                            href="#"
+                            className="inline-flex w-full justify-center border bg-[#373737] py-4 px-4 text-sm font-medium text-white shadow-sm"
+                          >
+                            Sign up
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </>
+              ) : (
+                <div>
+                    <div>
+                      <div className="mt-1 grid grid-cols-1 gap-3">
+                        <div>
+                          <Link
+                            to="/dashboard"
+                            className="inline-flex w-full justify-center border border-gray-300 py-4 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-[#096e66] hover:text-white "
+                          >
+                            Find Stores
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              )
+              }
 
               <div className="mt-6">
                 <form action="#" method="POST" className="space-y-6">
@@ -130,12 +150,12 @@ export default function Banner() {
             </div>
             <p className='text-center absolute bottom-10 text-gray-600 px-20'> Copyright &copy; VegFru 2023 | Design & <br /> Developed by <a className='font-medium underline' href='https://linktr.ee/rajamrit'>Amrit Raj</a>
 
-            <div className='flex items-center justify-center mt-3 space-x-4'>
-              <Link to="/dashboard"><FaStore size={25} className='cursor-pointer' /></Link>
-              <Link to="/about"><FcAbout size={25} className='cursor-pointer' /></Link>
-              <Link to="/help"><BiHelpCircle size={25} className='cursor-pointer' /></Link>
-            </div>
-            
+              <div className='flex items-center justify-center mt-3 space-x-4'>
+                <Link to="/dashboard"><FaStore size={25} className='cursor-pointer' /></Link>
+                <Link to="/about"><FcAbout size={25} className='cursor-pointer' /></Link>
+                <Link to="/help"><BiHelpCircle size={25} className='cursor-pointer' /></Link>
+              </div>
+
             </p>
           </div>
         </div>

@@ -17,6 +17,7 @@ import {
     Button
 } from '@chakra-ui/react'
 import Ratings from '../components/order/Ratings'
+import { getOrderById } from '../http'
 
 
 const Orderdetail = () => {
@@ -31,14 +32,8 @@ const Orderdetail = () => {
     const fetchSingleOrder = async () => {
         setIsLoader(true)
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
-
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/order/customer/get-order/${_id}`, config);
+            
+            const { data } = await getOrderById(_id);
             console.log(data)
             if (data.orderData.orderStatus === "Delivered"){
                 setIsPopUp(true)

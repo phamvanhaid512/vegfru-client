@@ -11,10 +11,7 @@ import {
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import { AuthContext } from '../../context/AuthContext';
-
-
-// ENDPOINT
-const endpoint = import.meta.env.VITE_API_URL;
+import { deleteAddress } from '../../http';
 
 const Address = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -28,17 +25,7 @@ const Address = () => {
 
     const handleDelete = async (id) => {
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
-
-            const { data } = await axios.delete(
-                `${endpoint}/api/user/delete-address/${id}`,
-                config
-            );
+            const { data } = await deleteAddress(id);
 
             toast.success(data.message, {
                 position: "top-left",

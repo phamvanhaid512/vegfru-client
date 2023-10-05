@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
+import { addRating } from '../../http';
 
 const Ratings = ({ setIsPopUp, storeId }) => {
     const [review, setReview] = useState();
@@ -11,13 +11,8 @@ const Ratings = ({ setIsPopUp, storeId }) => {
             const reqData = {
                 review, radio, storeId
             }
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/user/store/rate`, reqData, config);
+
+            const { data } = await addRating(reqData);
             // console.log(data)
             toast.success("Thank you for rating!", {
                 autoClose : 2000,

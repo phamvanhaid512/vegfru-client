@@ -16,6 +16,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai"
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import HashLoader from 'react-spinners/HashLoader';
+import { getProducts } from '../../http';
 
 const Products = ({ singleStore }) => {
     const params = useParams()
@@ -71,13 +72,8 @@ const Products = ({ singleStore }) => {
     const fetchProduct = async () => {
         setLoader(true)
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer " + JSON.parse(localStorage.getItem("jwt"))
-                },
-            };
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/vendor/product/get-product/${storeId}`, config);
+
+            const { data } = await getProducts(storeId)
             setProduct(data.getProduct)
         } catch (error) {
             console.log(error)

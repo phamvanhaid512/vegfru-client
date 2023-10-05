@@ -13,28 +13,32 @@ import Address from './Address'
 import EditProfile from './EditProfile'
 import AddAddress from './AddAddress'
 import { AuthContext } from '../../context/AuthContext'
-import axios from 'axios'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { Badge } from '@chakra-ui/react'
-import { doLogout } from '../logics/logics'
+import { logout } from '../../http'
+
 
 
 const ProfileComponent = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [fun, setFun] = useState()
     const { user, currentPlace, setUser, totalOrder, orderList } = useContext(AuthContext)
+    const navigate = useNavigate();
 
     const handleClick = (drawer) => {
         setFun(drawer);
         onOpen()
     }
 
-    const logout = () => {
-        if (doLogout()){
+    const logoutHandler = async () => {
+        try {
+            const { data } = await logout();
             setUser();
-            <Navigate to={"/"} />
+            localStorage.setItem("auth", data.auth)
+            navigate("/");
+        } catch (error) {
+            console.log(error.response.data);
         }
-
     }
 
     return (
@@ -53,7 +57,7 @@ const ProfileComponent = () => {
                                 </div>
                                 <div class="flex flex-col items-center text-center justify-center">
                                     <h2 class="flex font-medium title-font mt-4 text-gray-900 text-lg">{user?.name}
-                                        <svg onClick={logout} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="ml-2 cursor-pointer w-6 h-6">
+                                        <svg onClick={logoutHandler} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="ml-2 cursor-pointer w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                                         </svg>
 
