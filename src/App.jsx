@@ -23,6 +23,7 @@ function App() {
       fetchAddress();
       fetchOrder();
     }
+    alert("Server is under maintenance! please watch video demo on youtube untill then!")
     getLocation();
   }, [])
   return (

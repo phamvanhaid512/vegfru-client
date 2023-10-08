@@ -35,7 +35,8 @@ const Login = ({ handleClick }) => {
 
 
         } catch (error) {
-            toast.error(error.response.data.message, {
+            console.log(error);
+            toast.error(error.response?.data.message, {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -46,7 +47,7 @@ const Login = ({ handleClick }) => {
                 theme: "colored",
             });
             setLoader(false);
-            console.log(error);
+            // console.log(error);
         }
 
     }
