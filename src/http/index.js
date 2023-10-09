@@ -44,7 +44,7 @@ api.interceptors.response.use((config) => {
         originalRequest.isRetry = true;
 
         try {
-            await axios.get(`${import.meta.env.VITE_API_URL}/api/user/refresh`, {
+            await axios.get(`${import.meta.env.VITE_API_URL}api/user/refresh`, {
                 withCredentials : true
             });
 
